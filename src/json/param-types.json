@@ -1,0 +1,53 @@
+{
+    "protocol_version": "integer",
+
+    "tracking_id": "string",
+    "gtm": "string",
+    "random_p": "int",
+    "client_id": "string",
+
+    "user_language": "string",
+    "screen_resolution": "string",
+
+    "ngs_unknown": "int",
+    "event_number": "int",
+
+    "session_id": "int",
+    "session_number": "int",
+    "session_engaged": "boolean",
+
+    "document_location": "string",
+    "document_referrer": "string",
+    "document_title": "string",
+
+    "event_name": "string",
+
+    "first_visit": "boolean",
+    "new_to_site": "boolean",
+    "session_start": "boolean",
+    "external_event": "boolean",
+
+    "engagement_time": "int",
+
+    "user_agent_architecture": "string",
+    "user_agent_bitness": "int",
+    "user_agent_full_version_list": "string",
+    "user_agent_model": "string",
+    "user_agent_mobile": "boolean",
+    "user_agent_platform": "string",
+    "user_agent_platform_version": "string",
+    "user_agent_wow64": "string",
+
+    "debug": "string",
+
+    "percent_scrolled": "int",
+    "eu_unknown": "string",
+    "currency": "string",
+    "conversion": "bool",
+    "product_1": "string",
+    "product_2": "string",
+    "product_3": "string",
+    "product_4": "string",
+    "transaction_id": "string",
+    "transaction_value": "double",
+}

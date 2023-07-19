@@ -1,0 +1,53 @@
+{
+    "protocol_version": "v",
+
+    "tracking_id": "tid",
+    "gtm": "gtm",
+    "random_p": "_p",
+    "client_id": "cid",
+
+    "user_language": "ul",
+    "screen_resolution": "sr",
+
+    "ngs_unknown": "ngs",
+    "event_number": "_s",
+
+    "session_id": "sid",
+    "session_number": "sct",
+    "session_engaged": "seg",
+
+    "document_location": "dl",
+    "document_referrer": "dr",
+    "document_title": "dt",
+
+    "event_name": "en",
+
+    "first_visit": "_fv",
+    "new_to_site": "_nsi",
+    "session_start": "_ss",
+    "external_event": "_ee",
+
+    "engagement_time": "_et",
+
+    "user_agent_architecture": "uaa",
+    "user_agent_bitness": "uab",
+    "user_agent_full_version_list": "uafvl",
+    "user_agent_model": "uam",
+    "user_agent_mobile": "uamb",
+    "user_agent_platform": "uap",
+    "user_agent_platform_version": "uapv",
+    "user_agent_wow64": "uaw",
+
+    "debug": "ep.debug_mode",
+
+    "eu_unknown": "_eu",
+    "percent_scrolled": "epn.percent_scrolled",
+    "currency": "cu",
+    "conversion": "_c",
+    "product_1": "pr1",
+    "product_2": "pr2",
+    "product_3": "pr3",
+    "product_4": "pr4",
+    "transaction_id": "ep.transaction_id",
+    "transaction_value": "epn.value",
+}

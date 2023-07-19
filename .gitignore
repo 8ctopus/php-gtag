@@ -1,0 +1,11 @@
+# composer
+/composer.lock
+/vendor/
+
+# phpunit
+/.phpunit.result.cache
+/coverage/
+
+# other
+/*.sublime-workspace
+/.php-cs-fixer.cache
