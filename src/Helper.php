@@ -11,7 +11,7 @@ class Helper
      *
      * @note taken from https://github.com/etconsilium/php-json-fix
      */
-    public static function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = JSON_BIGINT_AS_STRING) : ?array
+    public static function json_decode(string $json, bool $associative = false, int $depth = 512, int $options = JSON_BIGINT_AS_STRING) : ?array
     {
         // http://php.net/manual/ru/function.json-decode.php#112735
         // comments
@@ -29,7 +29,7 @@ class Helper
 
         // @TODO кавычки
         // $json = str_replace("'", '"', $json);
-        $decode = json_decode($json, $assoc, $depth, $options);
+        $decode = json_decode($json, $associative, $depth, $options);
 
         //  \Zend...\Json
         switch (json_last_error()) {
