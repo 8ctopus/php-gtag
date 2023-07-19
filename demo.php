@@ -32,7 +32,18 @@ $event = new Event([
 
 //$payload = $gtag->encode($event);
 //echo var_dump($payload);
-echo $gtag->ini($event);
+//echo $gtag->ini($event);
+
+$gtag->send($event);
+
+$random = strtolower(bin2hex(random_bytes(2)));
+
+$event = new Event([
+    'event_name' => 'page_view',
+    'document_location' => "http://test.com/{$random}/",
+    'document_referrer' => 'http://test.com/',
+    'document_title' => $random,
+]);
 
 $gtag->send($event);
 

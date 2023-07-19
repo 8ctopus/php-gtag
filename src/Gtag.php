@@ -8,24 +8,21 @@ use Exception;
 
 class Gtag
 {
-    private bool $firstEvent;
+    //private bool $firstEvent;
     private readonly string $url;
 
-    private readonly array $params;
+    private array $params;
 
     public function __construct(array $params)
     {
-        $this->firstEvent = true;
+        //$this->firstEvent = false;
         $this->url = "https://www.google-analytics.com/g/collect";
 
         $this->params = array_merge([
             'protocol_version' => 2,
             'gtm' => '45je37h0',
-            'random_p' => rand(1, 999999999),
             'ngs_unknown' => 1,
-            'event_number' => 1,
-            //'session_engaged' => false,
-            //'session_id' => time() - 10,
+            'event_number' => 0,
             'session_number' => 1,
             'external_event' => true,
         ], $params);
@@ -33,11 +30,22 @@ class Gtag
 
     public function send(Event $event) : self
     {
-        if (!$this->firstEvent) {
-            ++$this->params['event_number'];
-            $this->params['session_engaged'] = true;
-        } else {
-            $this->firstEvent = false;
+        $this->params['random_p'] = rand(1, 999999999);
+
+        //if (!$this->firstEvent) {
+        ++$this->params['event_number'];
+        //$this->params['session_engaged'] = true;
+        //} else {
+        //    $this->firstEvent = false;
+        //}
+
+        $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
+        $required = $required['gtag'];
+
+        foreach ($required as $key) {
+            if (!array_key_exists($key, $this->params)) {
+                throw new Exception("missing required parameter - {$key}");
+            }
         }
 
         $encoded = $this->encode($event);
