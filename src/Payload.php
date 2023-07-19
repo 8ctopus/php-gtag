@@ -8,11 +8,6 @@ use Exception;
 
 class Payload
 {
-    public function __construct()
-    {
-
-    }
-
     public function analyze(string $source) : string
     {
         $lines = explode("\n", trim($source));

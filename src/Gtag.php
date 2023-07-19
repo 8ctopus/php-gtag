@@ -8,10 +8,14 @@ use Exception;
 
 class Gtag
 {
+    private readonly string $url;
     private readonly array $params;
+    private bool $firstEvent;
 
     public function __construct(array $params)
     {
+        $this->url = "https://www.google-analytics.com/g/collect";
+
         $this->params = array_merge([
             'protocol_version' => 2,
             'gtm' => '45je37h0',
@@ -23,6 +27,58 @@ class Gtag
             'session_engaged' => true,
             'external_event' => true,
         ], $params);
+
+        $this->firstEvent = true;
+    }
+
+    public function send(Event $event) : self
+    {
+        // FIX ME deal with first event
+        if ($this->firstEvent) {
+
+        }
+
+        $encoded = $this->encode($event);
+
+        $session = curl_init();
+
+        $url = $this->url . '?' . http_build_query($encoded);
+
+        echo $url; die;
+
+        curl_setopt_array($session, [
+            \CURLOPT_URL => $url,
+            \CURLOPT_POST => true,
+            \CURLOPT_RETURNTRANSFER => true,
+            \CURLOPT_HEADER => false,
+            \CURLOPT_FRESH_CONNECT => false,
+
+            \CURLOPT_CONNECTTIMEOUT => 5,
+            \CURLOPT_TIMEOUT => 5,
+
+            \CURLOPT_VERBOSE => false,
+
+            // fail verbosely if the HTTP code returned is greater than or equal to 400
+            \CURLOPT_FAILONERROR => true,
+        ]);
+
+        $response = curl_exec($session);
+
+        if ($response === false) {
+            throw new Exception('curl - ' . curl_error($session));
+        }
+
+        $status = curl_getinfo($session, CURLINFO_RESPONSE_CODE);
+
+        curl_close($session);
+
+        echo <<<OUTPUT
+        status: {$status}
+        response: {$response}
+
+        OUTPUT;
+
+        $this->firstEvent = false;
     }
 
     public function encode(Event $event) : array
