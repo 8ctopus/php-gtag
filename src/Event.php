@@ -8,70 +8,48 @@ use Exception;
 
 class Event
 {
-    private readonly array $required;
-    private array $event;
-    private bool $debug;
+    private array $params;
 
-    public function __construct(string $type, array $known, bool $debug)
+    public function __construct(array $params)
     {
-        $this->debug = $debug;
-
-        $this->required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        if (!array_key_exists($type, $this->required)) {
-            throw new Exception("unhandled event type - {$type}");
+        if (!array_key_exists('event_name', $params)) {
+            throw new Exception('missing event name');
         }
 
-        $required = $this->required[$type];
-        $known['event_name'] = $type;
+        $name = $params['event_name'];
 
-        $this->event = [];
+        $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
+
+        if (!array_key_exists($name, $required)) {
+            throw new Exception("unhandled event name - {$name}");
+        }
+
+        $required = $required[$name];
+
+        $this->params = [];
 
         foreach ($required as $key) {
-            if (array_key_exists($key, $known)) {
-                $this->event[$key] = $known[$key];
+            if (array_key_exists($key, $params)) {
+                $this->params[$key] = $params[$key];
             } else {
-                $this->event[$key] = null;
+                $this->params[$key] = null;
             }
-        }
-
-        if ($this->debug) {
-            // FIX ME debug is not in the right place
-            $this->event['debug'] = true;
         }
     }
 
-    public function encode() : array
+    public function valid() : bool
     {
-        $payload = [];
-
-        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        foreach ($this->event as $key => $value) {
-            if (!array_key_exists($key, $names)) {
-                throw new Exception("unknown key - {$key}");
+        foreach ($this->params as $param) {
+            if ($param === null) {
+                return false;
             }
-
-            $payload[$names[$key]] = $value;
         }
 
-        return $payload;
+        return true;
     }
 
-    public function ini() : string
+    public function params() : array
     {
-        $payload = '';
-
-        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        foreach ($this->event as $key => $value) {
-            if (!array_key_exists($key, $names)) {
-                throw new Exception("unknown key - {$key}");
-            }
-
-            $payload .= "{$names[$key]}: {$value}\n";
-        }
-
-        return $payload;
+        return $this->params;
     }
 }

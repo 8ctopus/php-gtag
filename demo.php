@@ -3,40 +3,31 @@
 declare(strict_types=1);
 
 use Oct8pus\Gtag\Event;
+use Oct8pus\Gtag\Gtag;
 use Oct8pus\Gtag\Payload;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 //echo "select event type: ";
 
-$type = 'page_view'; //trim(fgets(STDIN));
-$known = [
-    'protocol_version' => 2,
+$gtag = new Gtag([
     'tracking_id' => 'G-8XQMZ2E6TH',
-    'gtm' => '45je37h0',
-    'random_p' => rand(1, 999999999),
     'client_id' => '1827526090.1689745728',
     'user_language' => 'en-us',
     'screen_resolution' => '1920x1080',
-    'ngs_unknown' => 1,
-    'event_number' => 1,
-    'currency' => 'USD',
-    'session_id' => time() - 10,
-    'session_number' => 1,
-    'session_engaged' => true,
+    'debug' => 'true',
+]);
+
+$event = new Event([
+    'event_name' => 'page_view',
     'document_location' => 'http://test.com/gtag-index.php',
     'document_referrer' => 'http://test.com/',
     'document_title' => 'My First Web Page',
-    'external_event' => true,
-    'engagement_time' => 1,
-];
+]);
 
-$event = new Event($type, $known, true);
-
-//$payload = $event->encode();
+//$payload = $gtag->encode($event);
 //echo var_dump($payload);
-
-echo $event->ini();
+echo $gtag->ini($event);
 
 exit;
 

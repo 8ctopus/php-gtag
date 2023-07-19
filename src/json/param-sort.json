@@ -1,0 +1,52 @@
+[
+    "protocol_version",
+    "tracking_id",
+    "gtm",
+    "random_p",
+    "client_id",
+
+    "user_language",
+    "screen_resolution",
+
+    "ngs_unknown",
+    "event_number",
+
+    "session_id",
+    "session_number",
+    "session_engaged",
+
+    "document_location",
+    "document_referrer",
+    "document_title",
+
+    "event_name",
+
+    "first_visit",
+    "new_to_site",
+    "session_start",
+    "external_event",
+
+    "engagement_time",
+
+    "user_agent_architecture",
+    "user_agent_bitness",
+    "user_agent_full_version_list",
+    "user_agent_model",
+    "user_agent_mobile",
+    "user_agent_platform",
+    "user_agent_platform_version",
+    "user_agent_wow64",
+
+    "debug",
+
+    "eu_unknown",
+    "percent_scrolled",
+    "currency",
+    "conversion",
+    "product_1",
+    "product_2",
+    "product_3",
+    "product_4",
+    "transaction_id",
+    "transaction_value",
+]
