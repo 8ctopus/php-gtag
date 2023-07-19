@@ -8,12 +8,14 @@ use Exception;
 
 class Gtag
 {
-    private readonly string $url;
-    private readonly array $params;
     private bool $firstEvent;
+    private readonly string $url;
+
+    private readonly array $params;
 
     public function __construct(array $params)
     {
+        $this->firstEvent = true;
         $this->url = "https://www.google-analytics.com/g/collect";
 
         $this->params = array_merge([
@@ -22,20 +24,20 @@ class Gtag
             'random_p' => rand(1, 999999999),
             'ngs_unknown' => 1,
             'event_number' => 1,
-            'session_id' => time() - 10,
+            //'session_engaged' => false,
+            //'session_id' => time() - 10,
             'session_number' => 1,
-            'session_engaged' => true,
             'external_event' => true,
         ], $params);
-
-        $this->firstEvent = true;
     }
 
     public function send(Event $event) : self
     {
-        // FIX ME deal with first event
-        if ($this->firstEvent) {
-
+        if (!$this->firstEvent) {
+            ++$this->params['event_number'];
+            $this->params['session_engaged'] = true;
+        } else {
+            $this->firstEvent = false;
         }
 
         $encoded = $this->encode($event);
@@ -44,7 +46,7 @@ class Gtag
 
         $url = $this->url . '?' . http_build_query($encoded);
 
-        echo $url; die;
+        //echo $url; die;
 
         curl_setopt_array($session, [
             \CURLOPT_URL => $url,
@@ -78,7 +80,7 @@ class Gtag
 
         OUTPUT;
 
-        $this->firstEvent = false;
+        return $this;
     }
 
     public function encode(Event $event) : array
