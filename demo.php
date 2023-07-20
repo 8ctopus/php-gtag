@@ -10,10 +10,27 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // debug view events are not added to reports
 // https://support.google.com/analytics/answer/7201382
-$gtag = new Gtag([
-    '_ga' => 'GA1.1.1827526090.1689745728',
-    '_ga_8XQMZ2E6TH' => 'GS1.1.1689855443.11.1.1689855580.0.0.0',
-], true);
+if (!file_exists('.config.php')) {
+    echo 'enter _ga cookie value: ';
+    $ga = trim(fgets(STDIN));
+
+    echo 'enter _ga_* cookie name: ';
+    $name = trim(fgets(STDIN));
+
+    echo 'enter _ga_* cookie value: ';
+    $value = trim(fgets(STDIN));
+
+    $config = [
+        '_ga' => $ga,
+        "{$name}" => $value,
+    ];
+
+    file_put_contents('.config.php', '<?php $config = ' . var_export($config, true) . ';');
+}
+
+require '.config.php';
+
+$gtag = new Gtag($config, true);
 
 $gtag->addParams([
     'user_language' => 'en-us',
