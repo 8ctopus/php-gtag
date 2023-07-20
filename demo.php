@@ -33,10 +33,6 @@ $event = new Event([
     'document_title' => $title,
 ]);
 
-//echo $gtag->ini($event);
-//$payload = $gtag->encode($event);
-//echo var_dump($payload);
-//exit;
 $gtag->send($event);
 exit;
 
