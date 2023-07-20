@@ -53,7 +53,7 @@ $event = new Event([
     'document_title' => '',
 
     'conversion' => true,
-    'transaction_id' => strtoupper(bin2hex(random_bytes(2))),
+    'transaction_id' => strtoupper(bin2hex(random_bytes(3))),
     'currency' => 'USD',
     'transaction_value' => 10,
     'product_1' => 'nmpaper~qt1~pr5',
