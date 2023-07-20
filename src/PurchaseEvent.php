@@ -72,7 +72,7 @@ class PurchaseEvent extends AbstractEvent
 
         $index = count($this->items);
 
-        $this->params["product_{$index}"] = "nm{$name}~qt{$quantity}~pr{$price}";
+        $this->params["product_{$index}"] = "nm{$name}~pr{$price}~qt{$quantity}";
 
         return $this;
     }
