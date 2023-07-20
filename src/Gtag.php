@@ -112,10 +112,10 @@ class Gtag
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
-        echo "{$url}\n";
+        echo "{$url}\n\n";
 
         // confirm send
-        echo "confirm send? ";
+        echo "send event? ";
 
         if (trim(fgets(STDIN)) !== 'y') {
             return $this;
@@ -152,6 +152,7 @@ class Gtag
         curl_close($session);
 
         echo <<<OUTPUT
+
         status: {$status}
         response: {$response}
 
