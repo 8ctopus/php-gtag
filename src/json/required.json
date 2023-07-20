@@ -41,7 +41,6 @@
         "event_name",
         "conversion",
         "product_1",
-        "product_2",
         "transaction_id",
         "transaction_value",
         //"engagement_time"
