@@ -104,13 +104,19 @@ class Gtag
             }
         }
 
-        echo $this->ini($event, $params);
+        echo $this->ini($event, $params) . "\n";
 
         $encoded = $this->encode($event, $params);
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
-        echo $url; die;
+        echo "{$url}\n";
+
+        echo "confirm send? ";
+
+        if (trim(fgets(STDIN)) !== 'y') {
+            return $this;
+        }
 
         $session = curl_init();
 
@@ -133,7 +139,7 @@ class Gtag
         $response = curl_exec($session);
 
         if ($response === false) {
-            throw new Exception('curl - ' . curl_error($session));
+            throw new Exception('curl exec - ' . curl_error($session));
         }
 
         $status = curl_getinfo($session, CURLINFO_RESPONSE_CODE);
@@ -145,6 +151,14 @@ class Gtag
         response: {$response}
 
         OUTPUT;
+
+        if ($status !== 204) {
+            throw new Exception("invalid status - {$status}");
+        }
+
+        if ($response !== '') {
+            throw new Exception("invalid response - {$response}");
+        }
 
         // update session last activity
         $this->lastActivity = time();
