@@ -58,6 +58,8 @@ $event = new Event([
     'transaction_value' => 10,
     'product_1' => 'nmpaper~qt1~pr5',
     'product_2' => 'nmpencil~qt1~pr5',
+
+    'engagement_time' => 10,
 ]);
 
 $gtag->send($event);
