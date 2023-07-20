@@ -26,6 +26,8 @@ class Gtag
             'gtm' => '45je37h0',
             'ngs_unknown' => 1,
             'external_event' => true,
+            'random_p' => rand(1, 999999999),
+            'event_number' => 0,
         ], $params);
 
         if ($debug) {
@@ -68,6 +70,7 @@ class Gtag
         $params['session_id'] = (int) $matches[1];
         $params['session_number'] = (int) $matches[2];
         $params['session_engaged'] = $matches[3] === '1' ? true : false;
+
         $this->lastActivity = (int) $matches[4];
 
         return $params;
@@ -86,12 +89,14 @@ class Gtag
             $params['session_start'] = true;
             ++$this->params['session_number'];
             $this->params['session_engaged'] = false;
+
+            $this->params['random_p'] = rand(1, 999999999);
+            $this->params['event_number'] = 0;
         } else {
             $this->params['session_engaged'] = true;
         }
 
-        $params['random_p'] = rand(1, 999999999);
-        $params['event_number'] = 1;
+        ++$this->params['event_number'];
 
         $params = array_merge($this->params, $params);
 
@@ -124,6 +129,8 @@ class Gtag
             return $this;
         }
 
+        echo "\n";
+
         // send request
         $session = curl_init();
 
@@ -155,7 +162,6 @@ class Gtag
         curl_close($session);
 
         echo <<<OUTPUT
-
         status: {$status}
         response: {$response}
 
