@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use Oct8pus\Gtag\Event;
 use Oct8pus\Gtag\Gtag;
+use Oct8pus\Gtag\PageviewEvent;
+use Oct8pus\Gtag\PurchaseEvent;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -22,69 +23,30 @@ $gtag->addParams([
     'screen_resolution' => '1920x1080',
 ]);
 
-/*
 $random = strtolower(bin2hex(random_bytes(2)));
 
 $page = 'gtag-index.php';
 $title = 'My First Web Page';
 
-$event = new Event([
-    'event_name' => 'page_view',
+$event = new PageviewEvent();
 
-    'document_location' => "http://test.com/{$page}",
-    'document_referrer' => 'http://test.com/',
-    'document_title' => $title,
-]);
-*/
-
-/*
-$event = new Event([
-    'event_name' => 'page_view',
-
-    'document_location' => "http://test.com/gtag-purchase.php",
-    'document_referrer' => 'http://test.com/gtag-index.php',
-    'document_title' => '',
-]);
-
-$gtag->send($event);
-*/
-
-$purchase = [
-    'event_name' => 'purchase',
-
-    'document_location' => "http://test.com/gtag-purchase.php",
-    'document_referrer' => 'http://test.com/gtag-index.php',
-    'document_title' => '',
-
-    'conversion' => true,
-    'transaction_id' => strtoupper(bin2hex(random_bytes(3))),
-    'currency' => 'USD',
-    'transaction_value' => 10,
-
-    //'engagement_time' => 10,
-];
-
-$products = [
-    [
-        'name' => 'pencil',
-        'quantity' => 1,
-        'price' => 5,
-    ], [
-        'name' => 'paper',
-        'quantity' => 2,
-        'price' => 3,
-    ],
-];
-
-foreach ($products as $i => $product) {
-    $index = $i + 1;
-
-    // nmpaper~qt1~pr5
-    $purchase["product_{$index}"] = "nm{$product['name']}~qt{$product['quantity']}~pr{$product['price']}";
-}
-
-$event = new Event($purchase);
+$event
+    ->setDocumentLocation("http://test.com/{$page}")
+    ->setDocumentReferrer('http://test.com/')
+    ->setDocumentTitle($title);
 
 $gtag->send($event);
 
-exit;
+$purchase = new PurchaseEvent();
+
+$purchase
+    ->setDocumentLocation('http://test.com/gtag-purchase.php')
+    ->setDocumentReferrer('http://test.com/gtag-index.php')
+    ->setDocumentTitle('')
+    ->setTransactionId(strtoupper(bin2hex(random_bytes(3))))
+    ->setTransactionValue(10)
+    ->setCurrency('USD')
+    ->addItem('pencil', 1, 5)
+    ->addItem('paper', 2, 3);
+
+$gtag->send($event);

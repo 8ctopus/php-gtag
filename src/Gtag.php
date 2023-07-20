@@ -83,7 +83,7 @@ class Gtag
         return $this;
     }
 
-    public function send(Event $event) : self
+    public function send(AbstractEvent $event) : self
     {
         $params = [];
 
@@ -104,7 +104,7 @@ class Gtag
         }
 
         // some events require a new random p (purchase does not)
-        if (in_array($event->params()['event_name'], ['page_view'], true)) {
+        if (in_array($event->eventName(), ['page_view'], true)) {
             $this->newRandomP();
         }
 
@@ -121,14 +121,14 @@ class Gtag
             }
         }
 
-        // check event is valid, throws
+        // check event is valid, throws internally
         $event->valid();
 
         // show payload in chromium format
-        echo $this->ini($event, $params) . "\n";
+        echo $event->ini($params) . "\n";
 
         // encode payload
-        $encoded = $this->encode($event, $params);
+        $encoded = $event->encode($params);
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
@@ -197,66 +197,5 @@ class Gtag
     {
         $this->params = array_merge($this->params, $params);
         return $this;
-    }
-
-    public function encode(Event $event, array $params) : array
-    {
-        $params = array_merge($params, $event->params());
-
-        $params = $this->sort($params);
-
-        // convert names to keys
-        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        $payload = [];
-
-        foreach ($params as $key => $value) {
-            if (!array_key_exists($key, $names)) {
-                throw new Exception("unknown key - {$key}");
-            }
-
-            $payload[$names[$key]] = $value;
-        }
-
-        return $payload;
-    }
-
-    public function ini(Event $event, array $params) : string
-    {
-        $params = array_merge($params, $event->params());
-
-        $params = $this->sort($params);
-
-        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        $payload = '';
-
-        foreach ($params as $key => $value) {
-            if (!array_key_exists($key, $names)) {
-                throw new Exception("unknown key - {$key}");
-            }
-
-            if (gettype($value) === 'boolean') {
-                $value = $value ? '1' : '0';
-            }
-
-            $payload .= "{$names[$key]}: {$value}\n";
-        }
-
-        return $payload;
-    }
-
-    private function sort(array $params) : array
-    {
-        $order = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-sort.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        uksort($params, function($key1, $key2) use ($order) : int {
-            $index1 = array_search($key1, $order);
-            $index2 = array_search($key2, $order);
-
-            return ($index1 < $index2) ? -1 : +1;
-        });
-
-        return $params;
     }
 }
