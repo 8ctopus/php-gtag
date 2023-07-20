@@ -212,14 +212,13 @@ class Gtag
     {
         $order = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-sort.json'), true, 5, JSON_THROW_ON_ERROR);
 
-        $sorted = [];
+        uksort($params, function($key1, $key2) use ($order) : int {
+            $index1 = array_search($key1, $order);
+            $index2 = array_search($key2, $order);
 
-        foreach ($order as $key) {
-            if (array_key_exists($key, $params)) {
-                $sorted[$key] = $params[$key];
-            }
-        }
+            return ($index1 < $index2) ? -1 : +1;
+        });
 
-        return $sorted;
+        return $params;
     }
 }
