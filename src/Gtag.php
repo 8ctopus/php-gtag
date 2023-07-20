@@ -104,22 +104,27 @@ class Gtag
             }
         }
 
+        // show payload in chromium format
         echo $this->ini($event, $params) . "\n";
 
+        // encode payload
         $encoded = $this->encode($event, $params);
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
         echo "{$url}\n";
 
+        // confirm send
         echo "confirm send? ";
 
         if (trim(fgets(STDIN)) !== 'y') {
             return $this;
         }
 
+        // send request
         $session = curl_init();
 
+        // TODO make same headers as browser
         curl_setopt_array($session, [
             \CURLOPT_URL => $url,
             \CURLOPT_POST => true,
