@@ -23,11 +23,14 @@ $gtag->addParams([
 
 $random = strtolower(bin2hex(random_bytes(2)));
 
+$page = 'gtag-index.php';
+$title = 'My First Web Page';
+
 $event = new Event([
     'event_name' => 'page_view',
-    'document_location' => "http://test.com/{$random}/",
+    'document_location' => "http://test.com/{$page}",
     'document_referrer' => 'http://test.com/',
-    'document_title' => $random,
+    'document_title' => $title,
 ]);
 
 //echo $gtag->ini($event);

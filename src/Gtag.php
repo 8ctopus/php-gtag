@@ -108,7 +108,8 @@ class Gtag
 
         $encoded = $this->encode($event, $params);
 
-        $url = $this->url . '?' . http_build_query($encoded);
+        // we want %20 not +
+        $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
         echo $url; die;
 
         $session = curl_init();
