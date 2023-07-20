@@ -12,10 +12,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 // https://support.google.com/analytics/answer/7201382
 $gtag = new Gtag([
     '_ga' => 'GA1.1.1827526090.1689745728',
-    // expired session
-    '_ga_8XQMZ2E6TH' => 'GS1.1.1689852319.10.1.1689852323.0.0.0',
-    // valid session
-    //'_ga_8XQMZ2E6TH' => 'GS1.1.1689838164.6.1.1689840046.0.0.0',
+    '_ga_8XQMZ2E6TH' => 'GS1.1.1689855443.11.1.1689855580.0.0.0',
 ], true);
 
 $gtag->addParams([
@@ -44,9 +41,9 @@ $event
     ->setDocumentReferrer('http://test.com/gtag-index.php')
     ->setDocumentTitle('')
     ->setTransactionId(strtoupper(bin2hex(random_bytes(3))))
-    ->setTransactionValue(10)
+    ->setTransactionValue(16.97)
     ->setCurrency('USD')
-    ->addItem('pencil', 1, 4.95)
-    ->addItem('paper', 2, 2.45);
+    ->addItem('pen', 2, 5.99)
+    ->addItem('paper and cisors', 1, 4.99);
 
 $gtag->send($event);
