@@ -29,7 +29,7 @@ class Gtag
         ], $params);
 
         if ($debug) {
-            $this->params['debug'] = true;
+            $this->params['debug'] = 'true';
         }
     }
 
