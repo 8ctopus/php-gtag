@@ -7,7 +7,8 @@ use Oct8pus\Gtag\Gtag;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// debug view https://support.google.com/analytics/answer/7201382
+// debug view events are not added to reports
+// https://support.google.com/analytics/answer/7201382
 $gtag = new Gtag([
     '_ga' => 'GA1.1.1827526090.1689745728',
     // expired session
