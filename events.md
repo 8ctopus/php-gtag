@@ -3,7 +3,7 @@
 `gtm`: does not change even on a different site - could be script version or something with google tag manager - (string) - 45je37c0
 `tid`: tracking id (string) - G-8XQMZ2E6TH
 `cid`: client id - content of `_ga` cookie without GA1.1. (string) - 948747482.1689681163 - random(10).timestamp
-`sid`: session id - timestamp - argument 3 of `_ga_8XQMZ2E6TH` cookie (string) - 1689681163
+`sid`: session id - argument 2 of session cookie which is a timestamp (string) - 1689681163
 `_p`: shared among events sent at the same time (int) - Math.floor(Math.random() * (2147483647 - 0 + 1) + 0) - 2147483647 = 0x7FFFFFFF
 `_s`: event number within `_p` collection (int) - starts at 1 [1-3]
 `sct`: session number (int) - 1
