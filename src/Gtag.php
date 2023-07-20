@@ -153,6 +153,9 @@ class Gtag
             \CURLOPT_RETURNTRANSFER => true,
             \CURLOPT_HEADER => false,
             \CURLOPT_FRESH_CONNECT => false,
+            \CURLOPT_HTTPHEADER => [
+                'Content-Length: 0',
+            ],
 
             \CURLOPT_CONNECTTIMEOUT => 5,
             \CURLOPT_TIMEOUT => 5,
