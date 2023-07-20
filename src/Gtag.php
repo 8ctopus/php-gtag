@@ -97,12 +97,13 @@ class Gtag
             ++$this->params['session_number'];
             $this->params['session_engaged'] = false;
 
+            // new session requires a new random p
             $this->newRandomP();
         } else {
             $this->params['session_engaged'] = true;
         }
 
-        // some events require a new p
+        // some events require a new random p (purchase does not)
         if (in_array($event->params()['event_name'], ['page_view'], true)) {
             $this->newRandomP();
         }

@@ -7,12 +7,13 @@ use Oct8pus\Gtag\Gtag;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+// debug view https://support.google.com/analytics/answer/7201382
 $gtag = new Gtag([
     '_ga' => 'GA1.1.1827526090.1689745728',
     // expired session
-    //'_ga_8XQMZ2E6TH' => 'GS1.1.1689832664.5.1.1689833933.0.0.0',
+    '_ga_8XQMZ2E6TH' => 'GS1.1.1689832664.9.1.1689833933.0.0.0',
     // valid session
-    '_ga_8XQMZ2E6TH' => 'GS1.1.1689838164.6.1.1689840046.0.0.0',
+    //'_ga_8XQMZ2E6TH' => 'GS1.1.1689838164.6.1.1689840046.0.0.0',
 ], true);
 
 $gtag->addParams([
