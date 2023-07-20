@@ -10,7 +10,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $gtag = new Gtag([
     '_ga' => 'GA1.1.1827526090.1689745728',
-    '_ga_8XQMZ2E6TH' => 'GS1.1.1689828668.4.1.1689829000.0.0.0',
+    '_ga_8XQMZ2E6TH' => 'GS1.1.1689832664.5.1.1689833933.0.0.0',
 ], true);
 
 $gtag->addParams([

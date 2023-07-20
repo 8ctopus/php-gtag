@@ -25,7 +25,6 @@ class Gtag
             'gtm' => '45je37h0',
             'ngs_unknown' => 1,
             'event_number' => 0,
-            //'session_number' => 1,
             'external_event' => true,
         ], $params);
 
@@ -76,7 +75,7 @@ class Gtag
 
     public function send(Event $event) : self
     {
-        if (!$this->sessionValid()) {
+        if ($this->sessionExpired()) {
             $this->newSession();
 
             $this->params['session_start'] = true;
@@ -145,11 +144,9 @@ class Gtag
      *
      * @note default session timeout is 30 minutes
      */
-    public function sessionValid() : bool
+    public function sessionExpired() : bool
     {
-        $difference = time() - $this->params['last_activity'];
-
-        return ($difference < $this->sessionDuration);
+        return ((time() - $this->params['last_activity']) >= $this->sessionDuration);
     }
 
     public function newSession() : void
