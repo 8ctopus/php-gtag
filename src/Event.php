@@ -37,15 +37,15 @@ class Event
         }
     }
 
-    public function valid() : bool
+    public function valid() : self
     {
-        foreach ($this->params as $param) {
+        foreach ($this->params as $key => $param) {
             if ($param === null) {
-                return false;
+                throw new Exception("invalid param - {$key}");
             }
         }
 
-        return true;
+        return $this;
     }
 
     public function params() : array

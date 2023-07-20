@@ -104,6 +104,9 @@ class Gtag
             }
         }
 
+        // check event is valid, throws
+        $event->valid();
+
         // show payload in chromium format
         echo $this->ini($event, $params) . "\n";
 
