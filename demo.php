@@ -27,12 +27,12 @@ $event = new Event([
     'document_title' => $random,
 ]);
 
-echo $gtag->ini($event);
+//echo $gtag->ini($event);
 //$payload = $gtag->encode($event);
 //echo var_dump($payload);
-
-exit;
+//exit;
 $gtag->send($event);
+exit;
 
 $random = strtolower(bin2hex(random_bytes(2)));
 

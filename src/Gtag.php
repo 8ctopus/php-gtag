@@ -11,6 +11,7 @@ class Gtag
     private readonly string $url;
     private readonly int $sessionDuration;
 
+    private int $lastActivity;
     private array $params;
 
     public function __construct(array $cookies, bool $debug)
@@ -24,7 +25,6 @@ class Gtag
             'protocol_version' => 2,
             'gtm' => '45je37h0',
             'ngs_unknown' => 1,
-            'event_number' => 0,
             'external_event' => true,
         ], $params);
 
@@ -68,33 +68,44 @@ class Gtag
         $params['session_id'] = (int) $matches[1];
         $params['session_number'] = (int) $matches[2];
         $params['session_engaged'] = $matches[3] === '1' ? true : false;
-        $params['last_activity'] = (int) $matches[4];
+        $this->lastActivity = (int) $matches[4];
 
         return $params;
     }
 
     public function send(Event $event) : self
     {
-        if ($this->sessionExpired()) {
-            $this->newSession();
+        $params = [];
 
-            $this->params['session_start'] = true;
+        // default session expires after 30 minutes of inactivity
+        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
+            // create new session
+            $this->params['session_id'] = time();
+            $this->lastActivity = time();
+
+            $params['session_start'] = true;
+            ++$this->params['session_number'];
+            $this->params['session_engaged'] = false;
+        } else {
+            $this->params['session_engaged'] = true;
         }
 
-        $this->params['random_p'] = rand(1, 999999999);
+        $params['random_p'] = rand(1, 999999999);
+        $params['event_number'] = 1;
 
-        ++$this->params['event_number'];
+        $params = array_merge($this->params, $params);
 
         $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
         $required = $required['gtag'];
 
         foreach ($required as $key) {
-            if (!array_key_exists($key, $this->params)) {
+            if (!array_key_exists($key, $params)) {
                 throw new Exception("missing required parameter - {$key}");
             }
         }
 
-        $encoded = $this->encode($event);
+        echo $this->ini($event, $params); die;
+        $encoded = $this->encode($event, $params);
 
         $session = curl_init();
 
@@ -134,27 +145,10 @@ class Gtag
 
         OUTPUT;
 
+        // update session last activity
+        $this->lastActivity = time();
+
         return $this;
-    }
-
-    /**
-     * Check if session is valid
-     *
-     * @return bool
-     *
-     * @note default session timeout is 30 minutes
-     */
-    public function sessionExpired() : bool
-    {
-        return ((time() - $this->params['last_activity']) >= $this->sessionDuration);
-    }
-
-    public function newSession() : void
-    {
-        $params['session_id'] = time();
-        ++$params['session_number'];
-        $params['session_engaged'] = false;
-        $params['last_activity'] = time();
     }
 
     public function addParams(array $params) : self
@@ -163,15 +157,16 @@ class Gtag
         return $this;
     }
 
-    public function encode(Event $event) : array
+    public function encode(Event $event, array $params) : array
     {
-        $payload = [];
-
-        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
-
-        $params = array_merge($this->params, $event->params());
+        $params = array_merge($params, $event->params());
 
         $params = $this->sort($params);
+
+        // convert names to keys
+        $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
+
+        $payload = [];
 
         foreach ($params as $key => $value) {
             if (!array_key_exists($key, $names)) {
@@ -184,19 +179,23 @@ class Gtag
         return $payload;
     }
 
-    public function ini(Event $event) : string
+    public function ini(Event $event, array $params) : string
     {
-        $payload = '';
+        $params = array_merge($params, $event->params());
+
+        $params = $this->sort($params);
 
         $names = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-names.json'), true, 5, JSON_THROW_ON_ERROR);
 
-        $params = array_merge($this->params, $event->params());
-
-        $params = $this->sort($params);
+        $payload = '';
 
         foreach ($params as $key => $value) {
             if (!array_key_exists($key, $names)) {
                 throw new Exception("unknown key - {$key}");
+            }
+
+            if (gettype($value) === 'boolean') {
+                $value = $value ? '1' : '0';
             }
 
             $payload .= "{$names[$key]}: {$value}\n";
