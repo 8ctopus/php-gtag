@@ -36,7 +36,7 @@
 `ngs`: does not change (bool/int) - 1
 
 # not always present:
-`_et`: engagement time (int) - 7
+`_et`: engagement time (int) - 7 - https://support.google.com/analytics/answer/11109416?hl=en&sjid=3991113111911341382-EU
 `_ss`: session start (bool) - 1
 `_fv`: first visit (bool) - 1
 `_ee`: external event (bool) - 1
