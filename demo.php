@@ -35,6 +35,7 @@ $event = new Event([
 ]);
 */
 
+/*
 $event = new Event([
     'event_name' => 'page_view',
 
@@ -44,6 +45,7 @@ $event = new Event([
 ]);
 
 $gtag->send($event);
+*/
 
 $event = new Event([
     'event_name' => 'purchase',
@@ -59,7 +61,7 @@ $event = new Event([
     'product_1' => 'nmpaper~qt1~pr5',
     'product_2' => 'nmpencil~qt1~pr5',
 
-    'engagement_time' => 10,
+    //'engagement_time' => 10,
 ]);
 
 $gtag->send($event);
