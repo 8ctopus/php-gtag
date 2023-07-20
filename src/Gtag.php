@@ -126,8 +126,7 @@ class Gtag
         echo "send event? ";
 
         if (trim(fgets(STDIN)) !== 'y') {
-            --$this->params['event_number'];
-            return $this;
+            exit;
         }
 
         echo "\n";
