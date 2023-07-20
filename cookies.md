@@ -30,9 +30,9 @@ Store session state
 
 ### architecture
 
-GS1.1.session_id(timestamp).session_number.session_engaged.unknown_timestamp?.?.?.?
+GS1.1.session_id(timestamp).session_number.session_engaged.last_activity?.?.?.?
 
-`unknown_timestamp` is always a bit after session_id timestamp
+_REM_ `last_activity` is always after `session_id` timestamp, maybe some last update
 
 #### cookie on first day
 
@@ -46,3 +46,6 @@ GS1.1.1689828668.4.0.1689828668.0.0.0
 
 GS1.1.1689828668.4.1.1689829000.0.0.0
 
+#### cookie later on
+
+GS1.1.1689832664.5.1.1689832969.0.0.0
