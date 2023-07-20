@@ -30,7 +30,9 @@ Store session state
 
 ### architecture
 
-GS1.1.session_id(timestamp).session_number.session_engaged.?.?.?
+GS1.1.session_id(timestamp).session_number.session_engaged.unknown_timestamp?.?.?.?
+
+`unknown_timestamp` is always a bit after session_id timestamp
 
 #### cookie on first day
 
