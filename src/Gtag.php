@@ -104,14 +104,14 @@ class Gtag
             }
         }
 
-        echo $this->ini($event, $params); die;
+        echo $this->ini($event, $params);
+
         $encoded = $this->encode($event, $params);
 
-        $session = curl_init();
-
         $url = $this->url . '?' . http_build_query($encoded);
+        echo $url; die;
 
-        //echo $url; die;
+        $session = curl_init();
 
         curl_setopt_array($session, [
             \CURLOPT_URL => $url,
