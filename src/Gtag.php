@@ -76,6 +76,13 @@ class Gtag
         return $params;
     }
 
+    private function newRandomP() : self
+    {
+        $this->params['random_p'] = rand(1, 999999999);
+        $this->params['event_number'] = 0;
+        return $this;
+    }
+
     public function send(Event $event) : self
     {
         $params = [];
@@ -90,10 +97,14 @@ class Gtag
             ++$this->params['session_number'];
             $this->params['session_engaged'] = false;
 
-            $this->params['random_p'] = rand(1, 999999999);
-            $this->params['event_number'] = 0;
+            $this->newRandomP();
         } else {
             $this->params['session_engaged'] = true;
+        }
+
+        // some events require a new p
+        if (in_array($event->params()['event_name'], ['page_view'], true)) {
+            $this->newRandomP();
         }
 
         ++$this->params['event_number'];
