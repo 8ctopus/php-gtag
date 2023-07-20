@@ -8,14 +8,15 @@ use Exception;
 
 class Gtag
 {
-    //private bool $firstEvent;
     private readonly string $url;
+    private readonly int $sessionDuration;
 
     private array $params;
 
     public function __construct(array $cookies, bool $debug)
     {
         $this->url = "https://www.google-analytics.com/g/collect";
+        $this->sessionDuration = 30 * 60;
 
         $params = $this->readCookies($cookies);
 
@@ -77,6 +78,8 @@ class Gtag
     {
         if (!$this->sessionValid()) {
             $this->newSession();
+
+            $this->params['session_start'] = true;
         }
 
         $this->params['random_p'] = rand(1, 999999999);
@@ -146,7 +149,7 @@ class Gtag
     {
         $difference = time() - $this->params['last_activity'];
 
-        return ($difference < 30 * 60);
+        return ($difference < $this->sessionDuration);
     }
 
     public function newSession() : void
