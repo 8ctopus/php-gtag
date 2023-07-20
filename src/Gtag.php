@@ -33,12 +33,6 @@ class Gtag
         }
     }
 
-    public function addParams(array $params) : self
-    {
-        $this->params = array_merge($this->params, $params);
-        return $this;
-    }
-
     private function readCookies(array $cookies) : array
     {
         if (count($cookies) !== 2) {
@@ -71,16 +65,20 @@ class Gtag
             throw new Exception('session cookie invalid format');
         }
 
-        $params['session_id'] = $matches[1];
-        $params['session_number'] = $matches[2];
+        $params['session_id'] = (int) $matches[1];
+        $params['session_number'] = (int) $matches[2];
         $params['session_engaged'] = $matches[3] === '1' ? true : false;
-        //$params['unknown_timestamp'] = $matches[4];
+        $params['last_activity'] = (int) $matches[4];
 
         return $params;
     }
 
     public function send(Event $event) : self
     {
+        if (!$this->sessionValid()) {
+            $this->newSession();
+        }
+
         $this->params['random_p'] = rand(1, 999999999);
 
         ++$this->params['event_number'];
@@ -134,6 +132,39 @@ class Gtag
 
         OUTPUT;
 
+        return $this;
+    }
+
+    /**
+     * Check if session is valid
+     *
+     * @return bool
+     *
+     * @note default session timeout is 30 minutes
+     */
+    public function sessionValid() : bool
+    {
+        $difference = time() - $this->params['last_activity'];
+
+        if ($difference < 30 * 60) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function newSession() : void
+    {
+        $params['session_id'] = time();
+        ++$params['session_number'];
+        $params['session_engaged'] = false;
+        $params['last_activity'] = time();
+    }
+
+    public function addParams(array $params) : self
+    {
+        $this->params = array_merge($this->params, $params);
         return $this;
     }
 
