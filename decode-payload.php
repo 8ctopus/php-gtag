@@ -16,10 +16,14 @@ $converted = (new Payload())
     ->analyze($source);
 
 echo $converted;
-exit;
 
-echo "enter file name: ";
+echo "\n\nenter file name to save or press enter to exit: ";
+
 $filename = trim(fgets(STDIN));
+
+if (empty($filename)) {
+    exit;
+}
 
 $file = __DIR__ . "/events/{$filename}.event";
 
