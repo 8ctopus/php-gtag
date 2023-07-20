@@ -35,18 +35,18 @@ $event
     ->setDocumentReferrer('http://test.com/')
     ->setDocumentTitle($title);
 
-$gtag->send($event);
+//$gtag->send($event);
 
-$purchase = new PurchaseEvent();
+$event = new PurchaseEvent();
 
-$purchase
+$event
     ->setDocumentLocation('http://test.com/gtag-purchase.php')
     ->setDocumentReferrer('http://test.com/gtag-index.php')
     ->setDocumentTitle('')
     ->setTransactionId(strtoupper(bin2hex(random_bytes(3))))
     ->setTransactionValue(10)
     ->setCurrency('USD')
-    ->addItem('pencil', 1, 5)
-    ->addItem('paper', 2, 3);
+    ->addItem('pencil', 1, 4.95)
+    ->addItem('paper', 2, 2.45);
 
 $gtag->send($event);
