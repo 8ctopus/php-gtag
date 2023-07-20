@@ -32,8 +32,6 @@ Store session state
 
 GS1.1.session_id(timestamp).session_number.session_engaged.last_activity?.?.?.?
 
-_REM_ `last_activity` is always after `session_id` timestamp, maybe some last update
-
 #### cookie on first day
 
 GS1.1.1689765380.3.1.1689766550.0.0.0

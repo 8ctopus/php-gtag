@@ -1,8 +1,8 @@
 {
     "name": "8ctopus/php-gtag",
-    "type": "project",
+    "type": "package",
     "description": "experimental gtag.js implementation in php",
-    "keywords": [],
+    "keywords": ["gtag.js"],
     "homepage": "https://github.com/8ctopus/php-gtag",
     "license": "MIT",
     "authors": [
