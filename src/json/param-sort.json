@@ -11,6 +11,8 @@
     "ngs_unknown",
     "event_number",
 
+    "currency",
+
     "session_id",
     "session_number",
     "session_engaged",
@@ -21,10 +23,17 @@
 
     "event_name",
 
+    "conversion",
+
     "first_visit",
     "new_to_site",
     "session_start",
     "external_event",
+
+    "product_1",
+    "product_2",
+    "product_3",
+    "product_4",
 
     "engagement_time",
 
@@ -41,12 +50,6 @@
 
     "eu_unknown",
     "percent_scrolled",
-    "currency",
-    "conversion",
-    "product_1",
-    "product_2",
-    "product_3",
-    "product_4",
     "transaction_id",
     "transaction_value",
 ]

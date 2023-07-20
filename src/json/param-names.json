@@ -42,12 +42,13 @@
 
     "eu_unknown": "_eu",
     "percent_scrolled": "epn.percent_scrolled",
+
+    "transaction_id": "ep.transaction_id",
+    "transaction_value": "epn.value",
     "currency": "cu",
     "conversion": "_c",
     "product_1": "pr1",
     "product_2": "pr2",
     "product_3": "pr3",
-    "product_4": "pr4",
-    "transaction_id": "ep.transaction_id",
-    "transaction_value": "epn.value",
+    "product_4": "pr4"
 }
