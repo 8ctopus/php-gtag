@@ -146,12 +146,7 @@ class Gtag
     {
         $difference = time() - $this->params['last_activity'];
 
-        if ($difference < 30 * 60) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return ($difference < 30 * 60);
     }
 
     public function newSession() : void
