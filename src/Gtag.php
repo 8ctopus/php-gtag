@@ -13,31 +13,77 @@ class Gtag
 
     private array $params;
 
-    public function __construct(array $params)
+    public function __construct(array $cookies, bool $debug)
     {
-        //$this->firstEvent = false;
         $this->url = "https://www.google-analytics.com/g/collect";
+
+        $params = $this->readCookies($cookies);
 
         $this->params = array_merge([
             'protocol_version' => 2,
             'gtm' => '45je37h0',
             'ngs_unknown' => 1,
             'event_number' => 0,
-            'session_number' => 1,
+            //'session_number' => 1,
             'external_event' => true,
         ], $params);
+
+        if ($debug) {
+            $this->params['debug'] = true;
+        }
+    }
+
+    public function addParams(array $params) : self
+    {
+        $this->params = array_merge($this->params, $params);
+        return $this;
+    }
+
+    private function readCookies(array $cookies) : array
+    {
+        if (count($cookies) !== 2) {
+            throw new Exception('exactly 2 cookies expected');
+        }
+
+        if (!array_key_exists('_ga', $cookies)) {
+            throw new Exception('_ga cookie missing');
+        }
+
+        $ga = $cookies['_ga'];
+
+        if (preg_match('/GA1\.1\.\d{10}\.\d{10}/', $ga) !== 1) {
+            throw new Exception('_ga cookie invalid format');
+        }
+
+        $params = [];
+
+        $params['client_id'] = str_replace('GA1.1.', '', $ga);
+
+        unset($cookies['_ga']);
+
+        $trackingId = key($cookies);
+
+        $session = $cookies[$trackingId];
+
+        $params['tracking_id'] = str_replace('_ga_', 'G-', $trackingId);
+
+        if (preg_match('/GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d/', $session, $matches) !== 1) {
+            throw new Exception('session cookie invalid format');
+        }
+
+        $params['session_id'] = $matches[1];
+        $params['session_number'] = $matches[2];
+        $params['session_engaged'] = $matches[3] === '1' ? true : false;
+        //$params['unknown_timestamp'] = $matches[4];
+
+        return $params;
     }
 
     public function send(Event $event) : self
     {
         $this->params['random_p'] = rand(1, 999999999);
 
-        //if (!$this->firstEvent) {
         ++$this->params['event_number'];
-        //$this->params['session_engaged'] = true;
-        //} else {
-        //    $this->firstEvent = false;
-        //}
 
         $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
         $required = $required['gtag'];
