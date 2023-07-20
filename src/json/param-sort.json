@@ -35,8 +35,6 @@
     "product_3",
     "product_4",
 
-    "engagement_time",
-
     "user_agent_architecture",
     "user_agent_bitness",
     "user_agent_full_version_list",
@@ -52,4 +50,6 @@
     "percent_scrolled",
     "transaction_id",
     "transaction_value",
+
+    "engagement_time",
 ]
