@@ -49,7 +49,7 @@ $event = new Event([
 $gtag->send($event);
 */
 
-$event = new Event([
+$purchase = [
     'event_name' => 'purchase',
 
     'document_location' => "http://test.com/gtag-purchase.php",
@@ -60,11 +60,30 @@ $event = new Event([
     'transaction_id' => strtoupper(bin2hex(random_bytes(3))),
     'currency' => 'USD',
     'transaction_value' => 10,
-    'product_1' => 'nmpaper~qt1~pr5',
-    'product_2' => 'nmpencil~qt1~pr5',
 
     //'engagement_time' => 10,
-]);
+];
+
+$products = [
+    [
+        'name' => 'pencil',
+        'quantity' => 1,
+        'price' => 5,
+    ], [
+        'name' => 'paper',
+        'quantity' => 2,
+        'price' => 3,
+    ],
+];
+
+foreach ($products as $i => $product) {
+    $index = $i + 1;
+
+    // nmpaper~qt1~pr5
+    $purchase["product_{$index}"] = "nm{$product['name']}~qt{$product['quantity']}~pr{$product['price']}";
+}
+
+$event = new Event($purchase);
 
 $gtag->send($event);
 
