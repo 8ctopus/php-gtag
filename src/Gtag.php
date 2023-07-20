@@ -146,7 +146,7 @@ class Gtag
         // send request
         $session = curl_init();
 
-        // TODO make same headers as browser
+        // FIX ME make same headers as browser
         curl_setopt_array($session, [
             \CURLOPT_URL => $url,
             \CURLOPT_POST => true,
