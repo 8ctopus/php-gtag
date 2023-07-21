@@ -173,8 +173,10 @@ class Gtag
 
         // default session expires after 30 minutes of inactivity
         if ((time() - $this->lastActivity) >= $this->sessionDuration) {
-            // create new session
-            echo "session expired, create new session...\n";
+            if ($safeMode) {
+                // create new session
+                echo "session expired, create new session...\n";
+            }
 
             $this->params['session_id'] = time();
             $this->lastActivity = time();
