@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oct8pus\Gtag;
 
+use Exception;
 use RuntimeException;
 
 class Helper
@@ -62,6 +63,17 @@ class Helper
             } else {
                 $payload[$name] = $value;
             }
+        }
+
+        // check version
+        $version = (int) $payload['protocol_version'];
+
+        if ($version !== 2) {
+            if ($version === 1) {
+                throw new Exception('universal analytics is not supported');
+            }
+
+            throw new Exception("unsupported protocol version - {$version}");
         }
 
         // set array values type
