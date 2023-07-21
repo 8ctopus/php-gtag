@@ -40,9 +40,9 @@ class Gtag
         // check event is valid, throws internally
         $event->valid();
 
-        $params = $this->prepare($event);
+        $params = $this->prepareParams($event);
 
-        $this->valid($params);
+        $this->validateParams($params);
 
         if ($safeMode) {
             // show payload in chromium format
@@ -82,7 +82,7 @@ class Gtag
         return $this;
     }
 
-    private function prepare(AbstractEvent $event) : array
+    private function prepareParams(AbstractEvent $event) : array
     {
         $params = [];
 
@@ -112,7 +112,7 @@ class Gtag
         return array_merge($this->params, $params);
     }
 
-    private function valid(array $params) : self
+    private function validateParams(array $params) : self
     {
         $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
         $required = $required['gtag'];

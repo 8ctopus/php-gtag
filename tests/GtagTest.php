@@ -6,6 +6,7 @@ namespace Tests;
 
 use Oct8pus\Gtag\Gtag;
 use Oct8pus\Gtag\Helper;
+use Oct8pus\Gtag\PurchaseEvent;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,6 +42,36 @@ final class GtagTest extends TestCase
         ];
 
         self::assertSame($expected, $gtag->params());
+    }
+
+    public function testSend() : void
+    {
+        $clientId = Helper::createClientId();
+        $sessionId = Helper::createSessionId();
+
+        $gtag = new GtagMock([
+            '_ga' => $clientId,
+            '_ga_8XQMZ2E6TH' => $sessionId,
+        ], true);
+
+        $gtag->addParams([
+            'user_language' => 'en-us',
+            'screen_resolution' => '1920x1080',
+        ]);
+
+        $event = new PurchaseEvent();
+
+        $event
+            ->setDocumentLocation('http://test.com/purchase.php')
+            ->setDocumentReferrer('http://test.com/')
+            ->setDocumentTitle('Purchase')
+            ->setTransactionId('T-112')
+            ->setTransactionValue(16.97)
+            ->setCurrency('USD')
+            ->addItem('pen', 2, 5.99)
+            ->addItem('paper and cisors', 1, 4.99);
+
+        $gtag->send($event, true);
     }
 }
 
