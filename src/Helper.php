@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oct8pus\Gtag;
 
 use RuntimeException;
@@ -27,8 +29,10 @@ class Helper
         // codes   //  @TODO: add \x
         $json = str_replace(["\n", "\r", "\t", "\0"], '', $json);
 
-        // @TODO кавычки
-        // $json = str_replace("'", '"', $json);
+        /**
+         * @TODO кавычки
+         * $json = str_replace("'", '"', $json);
+         */
         $decode = json_decode($json, $associative, $depth, $options);
 
         //  \Zend...\Json

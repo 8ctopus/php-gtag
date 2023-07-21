@@ -89,8 +89,8 @@ abstract class AbstractEvent
         $order = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-sort.json'), true, 5, JSON_THROW_ON_ERROR);
 
         uksort($params, function ($key1, $key2) use ($order) : int {
-            $index1 = array_search($key1, $order);
-            $index2 = array_search($key2, $order);
+            $index1 = array_search($key1, $order, true);
+            $index2 = array_search($key2, $order, true);
 
             return ($index1 < $index2) ? -1 : +1;
         });
