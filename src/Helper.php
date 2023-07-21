@@ -71,7 +71,7 @@ class Helper
      */
     public static function createClientId() : string
     {
-        return 'GA1.1.' . self::randomInt() . '.' . time();
+        return 'GA1.1.' . static::randomInt() . '.' . time();
     }
 
     /**
@@ -84,7 +84,7 @@ class Helper
      */
     public static function createSessionId() : string
     {
-        return 'GS1.1.' . self::randomInt() . '.1.0.' . time() . '.0.0.0';
+        return 'GS1.1.' . time() . '.1.0.' . time() . '.0.0.0';
     }
 
     protected static function randomInt() : int
