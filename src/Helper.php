@@ -60,4 +60,35 @@ class Helper
 
         return null;
     }
+
+    /**
+     * Create a new GA4 client id
+     *
+     * @return string
+     *
+     * @note format is GA1.1.random(10).timestamp. See cookies.md for more info.
+     * example GA1.1.1827526090.1689745728
+     */
+    public static function createClientId() : string
+    {
+        return 'GA1.1.' . self::randomInt() . '.' . time();
+    }
+
+    /**
+     * Create a new GA4 session
+     *
+     * @return string
+     *
+     * @note format is GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.? See cookies.md for more info.
+     * example GS1.1.1689765380.3.1.1689766550.0.0.0
+     */
+    public static function createSessionId() : string
+    {
+        return 'GS1.1.' . self::randomInt() . '.1.0.' . time() . '.0.0.0';
+    }
+
+    protected static function randomInt() : int
+    {
+        return random_int(1000000000, 9999999999);
+    }
 }
