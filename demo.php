@@ -49,7 +49,8 @@ $event
     ->setDocumentReferrer('http://test.com/')
     ->setDocumentTitle($title);
 
-//$gtag->send($event, true);
+$gtag->send($event, true);
+exit();
 
 $event = new PurchaseEvent();
 
