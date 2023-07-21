@@ -76,6 +76,11 @@ class Gtag
             echo Helper::analyze($ini) . "\n";
         }
 
+        // do not send engagement time if session start
+        if (array_key_exists('session_start', $params)) {
+            unset($params['engagement_time']);
+        }
+
         // encode payload
         $encoded = $event->encode($params);
 
