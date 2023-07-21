@@ -14,6 +14,22 @@ class Gtag
     protected int $lastActivity;
     protected array $params;
 
+    private array $required = [
+        "protocol_version",
+        "tracking_id",
+        "gtm",
+        "random_p",
+        "client_id",
+        "user_language",
+        "screen_resolution",
+        "ngs_unknown",
+        "event_number",
+        "session_id",
+        "session_number",
+        "session_engaged",
+        "external_event",
+    ];
+
     public function __construct(array $cookies, bool $debug)
     {
         $this->url = 'https://www.google-analytics.com/g/collect';
@@ -114,10 +130,7 @@ class Gtag
 
     private function validateParams(array $params) : self
     {
-        $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
-        $required = $required['gtag'];
-
-        foreach ($required as $key) {
+        foreach ($this->required as $key) {
             if (!array_key_exists($key, $params)) {
                 throw new Exception("missing required parameter - {$key}");
             }
