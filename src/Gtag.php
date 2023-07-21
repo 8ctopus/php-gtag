@@ -8,11 +8,11 @@ use Exception;
 
 class Gtag
 {
-    private readonly string $url;
-    private readonly int $sessionDuration;
+    protected readonly string $url;
+    protected readonly int $sessionDuration;
 
-    private int $lastActivity;
-    private array $params;
+    protected int $lastActivity;
+    protected array $params;
 
     public function __construct(array $cookies, bool $debug)
     {
@@ -26,9 +26,9 @@ class Gtag
             'gtm' => '45je37h0',
             'ngs_unknown' => 1,
             'external_event' => true,
-            'random_p' => rand(1, 999999999),
-            'event_number' => 0,
         ], $params);
+
+        $this->randomP();
 
         if ($debug) {
             $this->params['debug'] = 'true';
@@ -50,14 +50,14 @@ class Gtag
             $this->params['session_engaged'] = false;
 
             // new session requires a new random p
-            $this->newRandomP();
+            $this->randomP();
         } else {
             $this->params['session_engaged'] = true;
         }
 
         // some events require a new random p (purchase does not)
         if (in_array($event->eventName(), ['page_view'], true)) {
-            $this->newRandomP();
+            $this->randomP();
         }
 
         ++$this->params['event_number'];
@@ -195,9 +195,9 @@ class Gtag
         return $params;
     }
 
-    private function newRandomP() : self
+    protected function randomP() : self
     {
-        $this->params['random_p'] = rand(1, 999999999);
+        $this->params['random_p'] = random_int(1, 999999999);
         $this->params['event_number'] = 0;
         return $this;
     }
