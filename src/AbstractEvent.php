@@ -96,6 +96,14 @@ abstract class AbstractEvent
         return $this;
     }
 
+    /**
+     * Set engagement time
+     *
+     * @param int $time
+     *
+     * @note The page_view, first_visit, and session_start events don't have a user_engagement_msec parameter
+     * because there was no engagement time since the previous event in the session. https://support.google.com/analytics/answer/11109416
+     */
     public function setEngagementTime(int $time) : self
     {
         $this->params['engagement_time'] = $time;
