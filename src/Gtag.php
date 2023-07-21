@@ -51,6 +51,14 @@ class Gtag
         }
     }
 
+    /**
+     * Send event
+     *
+     * @param  AbstractEvent $event
+     * @param  bool          $safeMode
+     *
+     * @return self
+     */
     public function send(AbstractEvent $event, bool $safeMode) : self
     {
         // check event is valid, throws internally

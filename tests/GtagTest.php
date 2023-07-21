@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Exception;
 use Oct8pus\Gtag\Gtag;
 use Oct8pus\Gtag\Helper;
 use Oct8pus\Gtag\PurchaseEvent;
