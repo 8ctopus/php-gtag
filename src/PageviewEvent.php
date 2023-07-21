@@ -14,7 +14,7 @@ class PageviewEvent extends AbstractEvent
 
     public function __construct()
     {
-        $this->setEventName('page_view');
+        $this->setName('page_view');
     }
 
     public function setDocumentLocation(string $url) : self
