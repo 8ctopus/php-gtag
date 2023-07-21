@@ -70,7 +70,10 @@ class Gtag
 
         if ($safeMode) {
             // show payload in chromium format
-            echo $event->ini($params) . "\n";
+            $ini = $event->ini($params);
+            //echo $ini . "\n";
+
+            echo Helper::analyze($ini) . "\n";
         }
 
         // encode payload
