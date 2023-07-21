@@ -56,7 +56,7 @@ class Gtag
         }
 
         // some events require a new random p (purchase does not)
-        if (in_array($event->eventName(), ['page_view'], true)) {
+        if (in_array($event->name(), ['page_view'], true)) {
             $this->randomP();
         }
 

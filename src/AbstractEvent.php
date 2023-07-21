@@ -11,7 +11,7 @@ abstract class AbstractEvent
     protected array $params = [];
     protected array $required;
 
-    public function eventName() : string
+    public function name() : string
     {
         return $this->params['event_name'];
     }
@@ -78,7 +78,7 @@ abstract class AbstractEvent
         return $payload;
     }
 
-    protected function setEventName(string $name) : self
+    protected function setName(string $name) : self
     {
         $this->params['event_name'] = $name;
         return $this;

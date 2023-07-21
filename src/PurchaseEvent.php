@@ -22,7 +22,7 @@ class PurchaseEvent extends AbstractEvent
 
     public function __construct()
     {
-        $this->setEventName('purchase');
+        $this->setName('purchase');
         $this->params['conversion'] = true;
     }
 
