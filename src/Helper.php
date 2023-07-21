@@ -37,6 +37,13 @@ class Helper
     /**
      * Decode json with invalid syntax
      *
+     * @param string $json
+     * @param bool   $associative
+     * @param int    $depth
+     * @param int    $options
+     *
+     * @return ?array
+     *
      * @note taken from https://github.com/etconsilium/php-json-fix
      */
     public static function json_decode(string $json, bool $associative = false, int $depth = 512, int $options = JSON_BIGINT_AS_STRING) : ?array

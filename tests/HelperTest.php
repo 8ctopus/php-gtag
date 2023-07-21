@@ -18,22 +18,22 @@ final class HelperTest extends TestCase
     {
         $clientId = Helper::createClientId();
 
-        static::assertMatchesRegularExpression('/^GA1\.1\.\d{10}\.\d{10}$/', $clientId);
+        self::assertMatchesRegularExpression('/^GA1\.1\.\d{10}\.\d{10}$/', $clientId);
 
         $clientId = HelperMock::createClientId();
 
-        static::assertSame('GA1.1.4444444444.' . time(), $clientId);
+        self::assertSame('GA1.1.4444444444.' . time(), $clientId);
     }
 
     public function testCreateSessionId() : void
     {
         $sessionId = Helper::createSessionId();
 
-        static::assertMatchesRegularExpression('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $sessionId);
+        self::assertMatchesRegularExpression('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $sessionId);
 
         $sessionId = HelperMock::createSessionId();
 
-        static::assertSame('GS1.1.' . time() . '.1.0.' . time() . '.0.0.0', $sessionId);
+        self::assertSame('GS1.1.' . time() . '.1.0.' . time() . '.0.0.0', $sessionId);
     }
 }
 
