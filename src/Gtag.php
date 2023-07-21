@@ -22,7 +22,7 @@ class Gtag
         'client_id',
         'user_language',
         'screen_resolution',
-        'ngs_unknown',
+        //'ngs_unknown',
         'event_number',
         'session_id',
         'session_number',
@@ -40,7 +40,7 @@ class Gtag
         $this->params = array_merge([
             'protocol_version' => 2,
             'gtm' => '45je37h0',
-            'ngs_unknown' => 1,
+            //'ngs_unknown' => 1,
             'external_event' => true,
         ], $params);
 
