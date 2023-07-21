@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Exception;
 use Oct8pus\Gtag\Gtag;
 use Oct8pus\Gtag\Helper;
 use Oct8pus\Gtag\PurchaseEvent;
@@ -71,12 +72,27 @@ final class GtagTest extends TestCase
             ->addItem('pen', 2, 5.99)
             ->addItem('paper and cisors', 1, 4.99);
 
-        $gtag->send($event, true);
+        $gtag->send($event, false);
+
+        $clientId = str_replace('GA1.1.', '', $clientId);
+        $timestamp = time();
+
+        $expected = "https://www.google-analytics.com/g/collect?v=2&tid=G-8XQMZ2E6TH&gtm=45je37h0&_p=999999999&cid={$clientId}&ul=en-us&sr=1920x1080&ngs=1&_s=1&cu=USD&sid={$timestamp}&sct=1&seg=1&dl=http%3A%2F%2Ftest.com%2Fpurchase.php&dr=http%3A%2F%2Ftest.com%2F&dt=Purchase&en=purchase&_c=1&_ee=1&pr1=nmpen~pr5.99~qt2&pr2=nmpaper%20and%20cisors~pr4.99~qt1&ep.debug_mode=true&ep.transaction_id=T-112&epn.value=16.97";
+
+        self::assertSame($expected, $gtag->curlUrl);
     }
 }
 
 class GtagMock extends Gtag
 {
+    public string $curlUrl;
+
+    protected function curl(string $url) : self
+    {
+        $this->curlUrl = $url;
+        return $this;
+    }
+
     public function params() : array
     {
         return $this->params;

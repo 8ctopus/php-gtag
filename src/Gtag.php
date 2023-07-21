@@ -126,7 +126,7 @@ class Gtag
         return $this;
     }
 
-    private function curl(string $url) : self
+    protected function curl(string $url) : self
     {
         // send request
         $session = curl_init();
