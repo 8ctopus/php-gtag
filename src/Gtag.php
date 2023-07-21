@@ -64,7 +64,7 @@ class Gtag
         // check event is valid, throws internally
         $event->valid();
 
-        $params = $this->prepareParams($event);
+        $params = $this->prepareParams($event, $safeMode);
 
         $this->validateParams($params);
 
@@ -167,13 +167,15 @@ class Gtag
         return $this;
     }
 
-    private function prepareParams(AbstractEvent $event) : array
+    private function prepareParams(AbstractEvent $event, bool $safeMode) : array
     {
         $params = [];
 
         // default session expires after 30 minutes of inactivity
         if ((time() - $this->lastActivity) >= $this->sessionDuration) {
             // create new session
+            echo "session expired, create new session...\n";
+
             $this->params['session_id'] = time();
             $this->lastActivity = time();
 
