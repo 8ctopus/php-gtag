@@ -40,41 +40,9 @@ class Gtag
         // check event is valid, throws internally
         $event->valid();
 
-        $params = [];
+        $params = $this->prepare($event);
 
-        // default session expires after 30 minutes of inactivity
-        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
-            // create new session
-            $this->params['session_id'] = time();
-            $this->lastActivity = time();
-
-            $params['session_start'] = true;
-            ++$this->params['session_number'];
-            $this->params['session_engaged'] = false;
-
-            // new session requires a new random p
-            $this->randomP();
-        } else {
-            $this->params['session_engaged'] = true;
-        }
-
-        // some events require a new random p (purchase does not)
-        if (in_array($event->name(), ['page_view'], true)) {
-            $this->randomP();
-        }
-
-        ++$this->params['event_number'];
-
-        $params = array_merge($this->params, $params);
-
-        $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
-        $required = $required['gtag'];
-
-        foreach ($required as $key) {
-            if (!array_key_exists($key, $params)) {
-                throw new Exception("missing required parameter - {$key}");
-            }
-        }
+        $this->valid($params);
 
         if ($safeMode) {
             // show payload in chromium format
@@ -100,6 +68,66 @@ class Gtag
             echo "\n";
         }
 
+        $this->curl($url);
+
+        // update session last activity
+        $this->lastActivity = time();
+
+        return $this;
+    }
+
+    public function addParams(array $params) : self
+    {
+        $this->params = array_merge($this->params, $params);
+        return $this;
+    }
+
+    private function prepare(AbstractEvent $event) : array
+    {
+        $params = [];
+
+        // default session expires after 30 minutes of inactivity
+        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
+            // create new session
+            $this->params['session_id'] = time();
+            $this->lastActivity = time();
+
+            $params['session_start'] = true;
+            ++$this->params['session_number'];
+            $this->params['session_engaged'] = false;
+
+            // new session requires a new random p
+            $this->randomP();
+        } else {
+            $this->params['session_engaged'] = true;
+        }
+
+        // some events require a new random p (purchase does not)
+        if (in_array($event->name(), ['page_view'], true)) {
+            $this->randomP();
+        }
+
+        ++$this->params['event_number'];
+
+        return array_merge($this->params, $params);
+    }
+
+    private function valid(array $params) : self
+    {
+        $required = Helper::json_decode(file_get_contents(__DIR__ . '/json/required.json'), true, 5, JSON_THROW_ON_ERROR);
+        $required = $required['gtag'];
+
+        foreach ($required as $key) {
+            if (!array_key_exists($key, $params)) {
+                throw new Exception("missing required parameter - {$key}");
+            }
+        }
+
+        return $this;
+    }
+
+    private function curl(string $url) : self
+    {
         // send request
         $session = curl_init();
 
@@ -133,14 +161,6 @@ class Gtag
 
         curl_close($session);
 
-        if ($safeMode) {
-            echo <<<OUTPUT
-            status: {$status}
-            response: {$response}
-
-            OUTPUT;
-        }
-
         if ($status !== 204) {
             throw new Exception("invalid status - {$status}");
         }
@@ -149,15 +169,6 @@ class Gtag
             throw new Exception("invalid response - {$response}");
         }
 
-        // update session last activity
-        $this->lastActivity = time();
-
-        return $this;
-    }
-
-    public function addParams(array $params) : self
-    {
-        $this->params = array_merge($this->params, $params);
         return $this;
     }
 
