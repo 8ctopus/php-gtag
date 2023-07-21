@@ -30,7 +30,7 @@ Store session state
 
 ### architecture
 
-GS1.1.session_id(timestamp).session_number.session_engaged.last_activity?.?.?.?
+GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.?
 
 #### cookie on first day
 

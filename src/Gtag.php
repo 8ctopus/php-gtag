@@ -154,6 +154,32 @@ class Gtag
         return $this;
     }
 
+    /**
+     * Create a new GA4 client id
+     *
+     * @return string
+     *
+     * @note format is GA1.1.random(10).timestamp. See cookies.md for more info.
+     */
+    public function createClientId() : string
+    {
+        //GA1.1.1827526090.1689745728
+        return 'GA1.1.' . $this->randomInt() . '.' . time();
+    }
+
+    /**
+     * Create a new GA4 session
+     *
+     * @return string
+     *
+     * @note format is GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.? See cookies.md for more info.
+     * example GS1.1.1689765380.3.1.1689766550.0.0.0
+     */
+    public function createSession() : string
+    {
+        return 'GS1.1.' . $this->randomInt() . '.1.0.' . time() . '.0.0.0';
+    }
+
     private function readCookies(array $cookies) : array
     {
         if (count($cookies) !== 2) {
@@ -200,5 +226,10 @@ class Gtag
         $this->params['random_p'] = rand(1, 999999999);
         $this->params['event_number'] = 0;
         return $this;
+    }
+
+    protected function randomInt() : int
+    {
+        return random_int(1000000000, 9999999999);
     }
 }
