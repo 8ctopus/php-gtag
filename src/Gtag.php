@@ -35,7 +35,7 @@ class Gtag
         }
     }
 
-    public function send(AbstractEvent $event) : self
+    public function send(AbstractEvent $event, bool $safeMode) : self
     {
         $params = [];
 
@@ -76,24 +76,29 @@ class Gtag
         // check event is valid, throws internally
         $event->valid();
 
-        // show payload in chromium format
-        echo $event->ini($params) . "\n";
+        if ($safeMode) {
+            // show payload in chromium format
+            echo $event->ini($params) . "\n";
+        }
 
         // encode payload
         $encoded = $event->encode($params);
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
-        echo "{$url}\n\n";
 
-        // confirm send
-        echo 'send event? ';
+        if ($safeMode) {
+            echo "{$url}\n\n";
 
-        if (trim(fgets(STDIN)) !== 'y') {
-            exit;
+            // confirm send
+            echo 'send event? ';
+
+            if (trim(fgets(STDIN)) !== 'y') {
+                exit;
+            }
+
+            echo "\n";
         }
-
-        echo "\n";
 
         // send request
         $session = curl_init();
@@ -128,11 +133,13 @@ class Gtag
 
         curl_close($session);
 
-        echo <<<OUTPUT
-        status: {$status}
-        response: {$response}
+        if ($safeMode) {
+            echo <<<OUTPUT
+            status: {$status}
+            response: {$response}
 
-        OUTPUT;
+            OUTPUT;
+        }
 
         if ($status !== 204) {
             throw new Exception("invalid status - {$status}");

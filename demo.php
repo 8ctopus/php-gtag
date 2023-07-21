@@ -49,7 +49,7 @@ $event
     ->setDocumentReferrer('http://test.com/')
     ->setDocumentTitle($title);
 
-//$gtag->send($event);
+//$gtag->send($event, true);
 
 $event = new PurchaseEvent();
 
@@ -63,4 +63,4 @@ $event
     ->addItem('pen', 2, 5.99)
     ->addItem('paper and cisors', 1, 4.99);
 
-$gtag->send($event);
+$gtag->send($event, true);
