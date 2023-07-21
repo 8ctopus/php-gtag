@@ -30,6 +30,8 @@ Store session state
 
 ### architecture
 
+_NOTE_: may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
+
 GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.?
 
 #### cookie on first day
