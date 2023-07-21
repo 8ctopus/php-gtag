@@ -39,7 +39,7 @@ class Gtag
 
         $this->params = array_merge([
             'protocol_version' => 2,
-            'gtm' => '45je37h0',
+            'gtm' => '45je37j0',
             //'ngs_unknown' => 1,
             'external_event' => true,
         ], $params);
