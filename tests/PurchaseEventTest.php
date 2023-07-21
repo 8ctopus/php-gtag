@@ -27,7 +27,8 @@ final class PurchaseEventTest extends TestCase
             ->setTransactionValue(16.97)
             ->setCurrency('USD')
             ->addItem('pen', 2, 5.99)
-            ->addItem('paper and cisors', 1, 4.99);
+            ->addItem('paper and cisors', 1, 4.99)
+            ->setEngagementTime(100);
 
         $event->valid();
 
@@ -44,6 +45,7 @@ final class PurchaseEventTest extends TestCase
             'pr2' => 'nmpaper and cisors~pr4.99~qt1',
             'ep.transaction_id' => 'T-112',
             'epn.value' => 16.97,
+            '_et' => 100,
         ];
 
         self::assertSame($expected, $event->encode([]));
@@ -59,6 +61,7 @@ final class PurchaseEventTest extends TestCase
         pr2: nmpaper and cisors~pr4.99~qt1
         ep.transaction_id: T-112
         epn.value: 16.97
+        _et: 100
 
         TEXT;
 
