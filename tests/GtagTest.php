@@ -86,15 +86,15 @@ class GtagMock extends Gtag
 {
     public string $curlUrl;
 
+    public function params() : array
+    {
+        return $this->params;
+    }
+
     protected function curl(string $url) : self
     {
         $this->curlUrl = $url;
         return $this;
-    }
-
-    public function params() : array
-    {
-        return $this->params;
     }
 
     protected function randomP() : self
@@ -104,4 +104,3 @@ class GtagMock extends Gtag
         return $this;
     }
 }
-

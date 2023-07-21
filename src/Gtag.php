@@ -15,19 +15,19 @@ class Gtag
     protected array $params;
 
     private array $required = [
-        "protocol_version",
-        "tracking_id",
-        "gtm",
-        "random_p",
-        "client_id",
-        "user_language",
-        "screen_resolution",
-        "ngs_unknown",
-        "event_number",
-        "session_id",
-        "session_number",
-        "session_engaged",
-        "external_event",
+        'protocol_version',
+        'tracking_id',
+        'gtm',
+        'random_p',
+        'client_id',
+        'user_language',
+        'screen_resolution',
+        'ngs_unknown',
+        'event_number',
+        'session_id',
+        'session_number',
+        'session_engaged',
+        'external_event',
     ];
 
     public function __construct(array $cookies, bool $debug)
@@ -54,8 +54,8 @@ class Gtag
     /**
      * Send event
      *
-     * @param  AbstractEvent $event
-     * @param  bool          $safeMode
+     * @param AbstractEvent $event
+     * @param bool          $safeMode
      *
      * @return self
      */
@@ -106,47 +106,6 @@ class Gtag
         return $this;
     }
 
-    private function prepareParams(AbstractEvent $event) : array
-    {
-        $params = [];
-
-        // default session expires after 30 minutes of inactivity
-        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
-            // create new session
-            $this->params['session_id'] = time();
-            $this->lastActivity = time();
-
-            $params['session_start'] = true;
-            ++$this->params['session_number'];
-            $this->params['session_engaged'] = false;
-
-            // new session requires a new random p
-            $this->randomP();
-        } else {
-            $this->params['session_engaged'] = true;
-        }
-
-        // some events require a new random p (purchase does not)
-        if (in_array($event->name(), ['page_view'], true)) {
-            $this->randomP();
-        }
-
-        ++$this->params['event_number'];
-
-        return array_merge($this->params, $params);
-    }
-
-    private function validateParams(array $params) : self
-    {
-        foreach ($this->required as $key) {
-            if (!array_key_exists($key, $params)) {
-                throw new Exception("missing required parameter - {$key}");
-            }
-        }
-
-        return $this;
-    }
-
     protected function curl(string $url) : self
     {
         // send request
@@ -193,6 +152,54 @@ class Gtag
         return $this;
     }
 
+    protected function randomP() : self
+    {
+        $this->params['random_p'] = random_int(1, 999999999);
+        $this->params['event_number'] = 0;
+        return $this;
+    }
+
+    private function prepareParams(AbstractEvent $event) : array
+    {
+        $params = [];
+
+        // default session expires after 30 minutes of inactivity
+        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
+            // create new session
+            $this->params['session_id'] = time();
+            $this->lastActivity = time();
+
+            $params['session_start'] = true;
+            ++$this->params['session_number'];
+            $this->params['session_engaged'] = false;
+
+            // new session requires a new random p
+            $this->randomP();
+        } else {
+            $this->params['session_engaged'] = true;
+        }
+
+        // some events require a new random p (purchase does not)
+        if (in_array($event->name(), ['page_view'], true)) {
+            $this->randomP();
+        }
+
+        ++$this->params['event_number'];
+
+        return array_merge($this->params, $params);
+    }
+
+    private function validateParams(array $params) : self
+    {
+        foreach ($this->required as $key) {
+            if (!array_key_exists($key, $params)) {
+                throw new Exception("missing required parameter - {$key}");
+            }
+        }
+
+        return $this;
+    }
+
     private function readCookies(array $cookies) : array
     {
         if (count($cookies) !== 2) {
@@ -232,12 +239,5 @@ class Gtag
         $this->lastActivity = (int) $matches[4];
 
         return $params;
-    }
-
-    protected function randomP() : self
-    {
-        $this->params['random_p'] = random_int(1, 999999999);
-        $this->params['event_number'] = 0;
-        return $this;
     }
 }

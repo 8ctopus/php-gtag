@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \Oct8pus\Gtag\PurchaseEvent
  * @covers \Oct8pus\Gtag\AbstractEvent
+ * @covers \Oct8pus\Gtag\PurchaseEvent
  */
 final class PurchaseEventTest extends TestCase
 {
@@ -31,7 +31,7 @@ final class PurchaseEventTest extends TestCase
 
         $event->valid();
 
-        static::assertSame($event->name(), 'purchase');
+        self::assertSame($event->name(), 'purchase');
 
         $expected = [
             'cu' => 'USD',
@@ -46,9 +46,9 @@ final class PurchaseEventTest extends TestCase
             'epn.value' => 16.97,
         ];
 
-        static::assertSame($expected, $event->encode([]));
+        self::assertSame($expected, $event->encode([]));
 
-        $expected = <<<TEXT
+        $expected = <<<'TEXT'
         cu: USD
         dl: http://test.com/purchase.php
         dr: http://test.com/
@@ -62,6 +62,6 @@ final class PurchaseEventTest extends TestCase
 
         TEXT;
 
-        static::assertSame($expected, $event->ini([]));
+        self::assertSame($expected, $event->ini([]));
     }
 }
