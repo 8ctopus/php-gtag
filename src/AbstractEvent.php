@@ -78,6 +78,30 @@ abstract class AbstractEvent
         return $payload;
     }
 
+    public function setDocumentLocation(string $url) : self
+    {
+        $this->params['document_location'] = $url;
+        return $this;
+    }
+
+    public function setDocumentReferrer(string $url) : self
+    {
+        $this->params['document_referrer'] = $url;
+        return $this;
+    }
+
+    public function setDocumentTitle(string $title) : self
+    {
+        $this->params['document_title'] = $title;
+        return $this;
+    }
+
+    public function setEngagementTime(int $time) : self
+    {
+        $this->params['engagement_time'] = $time;
+        return $this;
+    }
+
     protected function setName(string $name) : self
     {
         $this->params['event_name'] = $name;

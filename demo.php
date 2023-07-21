@@ -37,6 +37,7 @@ $gtag->addParams([
     'screen_resolution' => '1920x1080',
 ]);
 
+/*
 $random = strtolower(bin2hex(random_bytes(2)));
 
 $page = 'gtag-index.php';
@@ -51,6 +52,7 @@ $event
 
 $gtag->send($event, true);
 exit();
+*/
 
 $event = new PurchaseEvent();
 
@@ -62,6 +64,7 @@ $event
     ->setTransactionValue(16.97)
     ->setCurrency('USD')
     ->addItem('pen', 2, 5.99)
-    ->addItem('paper and cisors', 1, 4.99);
+    ->addItem('paper and cisors', 1, 4.99)
+    ->setEngagementTime(150);
 
 $gtag->send($event, true);

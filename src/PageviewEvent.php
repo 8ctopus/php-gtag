@@ -16,22 +16,4 @@ class PageviewEvent extends AbstractEvent
     {
         $this->setName('page_view');
     }
-
-    public function setDocumentLocation(string $url) : self
-    {
-        $this->params['document_location'] = $url;
-        return $this;
-    }
-
-    public function setDocumentReferrer(string $url) : self
-    {
-        $this->params['document_referrer'] = $url;
-        return $this;
-    }
-
-    public function setDocumentTitle(string $title) : self
-    {
-        $this->params['document_title'] = $title;
-        return $this;
-    }
 }

@@ -16,6 +16,7 @@ class PurchaseEvent extends AbstractEvent
         'currency',
         'conversion',
         'product_1',
+        'engagement_time',
     ];
 
     protected array $items;
@@ -24,24 +25,6 @@ class PurchaseEvent extends AbstractEvent
     {
         $this->setName('purchase');
         $this->params['conversion'] = true;
-    }
-
-    public function setDocumentLocation(string $url) : self
-    {
-        $this->params['document_location'] = $url;
-        return $this;
-    }
-
-    public function setDocumentReferrer(string $url) : self
-    {
-        $this->params['document_referrer'] = $url;
-        return $this;
-    }
-
-    public function setDocumentTitle(string $title) : self
-    {
-        $this->params['document_title'] = $title;
-        return $this;
     }
 
     public function setTransactionId(string $id) : self
