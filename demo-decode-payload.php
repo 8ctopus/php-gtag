@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Oct8pus\Gtag\Payload;
+use Oct8pus\Gtag\Helper;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -12,8 +12,7 @@ $source = stream_get_line(STDIN, 1024, PHP_EOL . PHP_EOL);
 
 $source = str_replace("\r", '', $source);
 
-$converted = (new Payload())
-    ->analyze($source);
+$converted = Helper::analyze($source);
 
 echo $converted;
 
