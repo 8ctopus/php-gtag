@@ -28,4 +28,3 @@ if (empty($filename)) {
 $file = __DIR__ . "/events/{$filename}.event";
 
 file_put_contents($file, $converted . "\n\noriginal payload\n" . $source . "\n");
-

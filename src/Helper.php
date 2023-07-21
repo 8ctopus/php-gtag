@@ -18,14 +18,14 @@ class Helper
         $json = preg_replace('~(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)~', '', $json);
 
         // trailing commas
-        $json=preg_replace('~,\s*([\]}])~mui', '$1', $json);
+        $json = preg_replace('~,\s*([\]}])~mui', '$1', $json);
 
         // empty cells
         $json = preg_replace('~(.+?:)(\s*)?([\]},])~mui', '$1null$3', $json);
         // $json = preg_replace('~.+?({.+}).+~', '$1', $json);
 
         // codes   //  @TODO: add \x
-        $json = str_replace(["\n","\r","\t","\0"], '', $json);
+        $json = str_replace(["\n", "\r", "\t", "\0"], '', $json);
 
         // @TODO кавычки
         // $json = str_replace("'", '"', $json);
@@ -38,19 +38,19 @@ class Helper
                 break;
 
             case JSON_ERROR_DEPTH:
-                throw new RuntimeException('Decoding failed: Maximum stack depth exceeded');
+                throw new RuntimeException('maximum stack depth exceeded');
                 break;
 
             case JSON_ERROR_CTRL_CHAR:
-                throw new RuntimeException('Decoding failed: Unexpected control character found');
+                throw new RuntimeException('unexpected control character found');
                 break;
 
             case JSON_ERROR_SYNTAX:
-                throw new RuntimeException('Decoding failed: Syntax error');
+                throw new RuntimeException('syntax error');
                 break;
 
             default:
-                throw new RuntimeException('Decoding error message: '.json_last_error_msg());
+                throw new RuntimeException(json_last_error_msg());
                 break;
         }
 

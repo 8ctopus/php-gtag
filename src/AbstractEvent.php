@@ -16,12 +16,6 @@ abstract class AbstractEvent
         return $this->params['event_name'];
     }
 
-    protected function setEventName(string $name) : self
-    {
-        $this->params['event_name'] = $name;
-        return $this;
-    }
-
     public function valid() : self
     {
         if (!array_key_exists('event_name', $this->params)) {
@@ -84,11 +78,17 @@ abstract class AbstractEvent
         return $payload;
     }
 
+    protected function setEventName(string $name) : self
+    {
+        $this->params['event_name'] = $name;
+        return $this;
+    }
+
     private function sort(array $params) : array
     {
         $order = Helper::json_decode(file_get_contents(__DIR__ . '/json/param-sort.json'), true, 5, JSON_THROW_ON_ERROR);
 
-        uksort($params, function($key1, $key2) use ($order) : int {
+        uksort($params, function ($key1, $key2) use ($order) : int {
             $index1 = array_search($key1, $order);
             $index2 = array_search($key2, $order);
 

@@ -7,15 +7,15 @@ namespace Oct8pus\Gtag;
 class PurchaseEvent extends AbstractEvent
 {
     protected array $required = [
-        "document_location",
-        "document_referrer",
-        "document_title",
+        'document_location',
+        'document_referrer',
+        'document_title',
 
-        "transaction_id",
-        "transaction_value",
-        "currency",
-        "conversion",
-        "product_1",
+        'transaction_id',
+        'transaction_value',
+        'currency',
+        'conversion',
+        'product_1',
     ];
 
     protected array $items;

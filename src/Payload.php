@@ -50,7 +50,7 @@ class Payload
         // sort payload
         $order = Helper::json_decode(file_get_contents(__DIR__ . '/json/payload-sort.json'), true, 5, JSON_THROW_ON_ERROR);
 
-        uksort($payload, function($key1, $key2) use ($order) : int {
+        uksort($payload, function ($key1, $key2) use ($order) : int {
             $index1 = array_search($key1, $order);
             $index2 = array_search($key2, $order);
 

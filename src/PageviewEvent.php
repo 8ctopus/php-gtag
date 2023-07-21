@@ -7,9 +7,9 @@ namespace Oct8pus\Gtag;
 class PageviewEvent extends AbstractEvent
 {
     protected array $required = [
-        "document_location",
-        "document_referrer",
-        "document_title",
+        'document_location',
+        'document_referrer',
+        'document_title',
     ];
 
     public function __construct()
