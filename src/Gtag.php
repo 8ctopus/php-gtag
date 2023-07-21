@@ -37,6 +37,9 @@ class Gtag
 
     public function send(AbstractEvent $event, bool $safeMode) : self
     {
+        // check event is valid, throws internally
+        $event->valid();
+
         $params = [];
 
         // default session expires after 30 minutes of inactivity
@@ -72,9 +75,6 @@ class Gtag
                 throw new Exception("missing required parameter - {$key}");
             }
         }
-
-        // check event is valid, throws internally
-        $event->valid();
 
         if ($safeMode) {
             // show payload in chromium format
