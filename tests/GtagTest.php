@@ -99,7 +99,7 @@ class GtagMock extends Gtag
 
     protected function randomP() : self
     {
-        $this->params['random_p'] = 999999999;
+        $this->params['random_p'] = 9999999999;
         $this->params['event_number'] = 0;
         return $this;
     }
