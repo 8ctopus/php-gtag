@@ -161,10 +161,10 @@ class Gtag
      *
      * @note format is GA1.1.random(10).timestamp. See cookies.md for more info.
      */
-    public function createClientId() : string
+    public static function createClientId() : string
     {
         //GA1.1.1827526090.1689745728
-        return 'GA1.1.' . $this->randomInt() . '.' . time();
+        return 'GA1.1.' . self::randomInt() . '.' . time();
     }
 
     /**
@@ -175,9 +175,9 @@ class Gtag
      * @note format is GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.? See cookies.md for more info.
      * example GS1.1.1689765380.3.1.1689766550.0.0.0
      */
-    public function createSession() : string
+    public static function createSessionId() : string
     {
-        return 'GS1.1.' . $this->randomInt() . '.1.0.' . time() . '.0.0.0';
+        return 'GS1.1.' . self::randomInt() . '.1.0.' . time() . '.0.0.0';
     }
 
     private function readCookies(array $cookies) : array
@@ -192,7 +192,7 @@ class Gtag
 
         $ga = $cookies['_ga'];
 
-        if (preg_match('/GA1\.1\.\d{10}\.\d{10}/', $ga) !== 1) {
+        if (preg_match('/^GA1\.1\.\d{10}\.\d{10}$/', $ga) !== 1) {
             throw new Exception('_ga cookie invalid format');
         }
 
@@ -208,7 +208,7 @@ class Gtag
 
         $params['tracking_id'] = str_replace('_ga_', 'G-', $trackingId);
 
-        if (preg_match('/GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d/', $session, $matches) !== 1) {
+        if (preg_match('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $session, $matches) !== 1) {
             throw new Exception('session cookie invalid format');
         }
 
@@ -228,7 +228,7 @@ class Gtag
         return $this;
     }
 
-    protected function randomInt() : int
+    protected static function randomInt() : int
     {
         return random_int(1000000000, 9999999999);
     }
