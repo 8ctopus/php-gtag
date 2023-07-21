@@ -76,13 +76,13 @@ class Gtag
             echo Helper::analyze($ini) . "\n";
         }
 
-        // do not send engagement time if session start
-        if (array_key_exists('session_start', $params)) {
-            unset($params['engagement_time']);
-        }
-
         // encode payload
         $encoded = $event->encode($params);
+
+        // do not send engagement time if session start
+        if (array_key_exists('_ss', $encoded)) {
+            unset($encoded['_et']);
+        }
 
         // we want %20 not +
         $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
