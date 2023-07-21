@@ -1,6 +1,6 @@
 # always present
 `v`: version number - universal analytics is 1 - google analytics 4 is 2 - (int) - 2
-`gtm`: does not change on a single day, changes slightly over days - could be script version or something with google tag manager - (string) - 45je37c0, 45je37j0, 45je37h0
+`gtm`: does not change on a single day even for different websites, changes slightly over days - could be script version or something with google tag manager - (string) - 45je37c0, 45je37j0, 45je37h0
 `tid`: tracking id (string) - G-8XQMZ2E6TH
 `cid`: client id - content of `_ga` cookie without GA1.1. (string) - 948747482.1689681163 - random(10).timestamp
 `sid`: session id - argument 2 of session cookie which is a timestamp (string) - 1689681163
@@ -32,7 +32,7 @@
 `uam`: user agent model (string) - empty string
 `uamb`: user agent mobile (bool) - 0/1
 
-# always present
+# not always present
 `ngs`: does not change (bool/int) - 1
 
 # not always present:
