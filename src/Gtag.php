@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Oct8pus\Gtag;
 
 use Exception;
+
 //FIX ME use function donatj\UserAgent\parse_user_agent;
 
 class Gtag
@@ -115,6 +116,11 @@ class Gtag
         return $this;
     }
 
+    public function isSessionExpired() : bool
+    {
+        return (time() - $this->lastActivity) >= $this->sessionDuration;
+    }
+
     protected function curl(string $url) : self
     {
         // send request
@@ -166,11 +172,6 @@ class Gtag
         $this->params['random_p'] = random_int(1, 999999999);
         $this->params['event_number'] = 0;
         return $this;
-    }
-
-    public function isSessionExpired() : bool
-    {
-        return (time() - $this->lastActivity) >= $this->sessionDuration;
     }
 
     private function prepareParams(AbstractEvent $event, bool $safeMode) : array
