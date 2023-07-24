@@ -32,7 +32,16 @@ class Helper
      */
     public static function createSessionId() : string
     {
-        return 'GS1.1.' . time() . '.1.0.' . time() . '.0.0.0';
+        $time = time();
+
+        return 'GS1.1.' . $time . '.1.0.' . $time . '.0.0.0';
+    }
+
+    public static function createExpiredSessionId() : string
+    {
+        $time = time() - 31 * 60;
+
+        return 'GS1.1.' . $time . '.1.0.' . $time . '.0.0.0';
     }
 
     public static function analyze(string $source) : string

@@ -77,6 +77,38 @@ final class GtagTest extends TestCase
         self::assertSame($expected, $gtag->curlUrl);
     }
 
+    public function testExpiredSessionPageviewEvent() : void
+    {
+        $clientId = Helper::createClientId();
+        $sessionId = Helper::createExpiredSessionId();
+
+        $gtag = new GtagMock([
+            '_ga' => $clientId,
+            '_ga_8XQMZ2E6TH' => $sessionId,
+        ], true);
+
+        $gtag->addParams([
+            'user_language' => 'en-us',
+            'screen_resolution' => '1920x1080',
+        ]);
+
+        $event = new PageviewEvent();
+
+        $event
+            ->setDocumentLocation('http://test.com/purchase.php')
+            ->setDocumentReferrer('http://test.com/')
+            ->setDocumentTitle('Purchase');
+
+        $gtag->send($event, false);
+
+        $clientId = str_replace('GA1.1.', '', $clientId);
+        $timestamp = time();
+
+        $expected = "https://www.google-analytics.com/g/collect?v=2&tid=G-8XQMZ2E6TH&gtm=45je37j0&_p=9999999999&cid={$clientId}&ul=en-us&sr=1920x1080&_s=1&sid={$timestamp}&sct=2&seg=0&dl=http%3A%2F%2Ftest.com%2Fpurchase.php&dr=http%3A%2F%2Ftest.com%2F&dt=Purchase&en=page_view&_ss=1&_ee=1&ep.debug_mode=true";
+
+        self::assertSame($expected, $gtag->curlUrl);
+    }
+
     public function testValidSessionPurchaseEvent() : void
     {
         $clientId = Helper::createClientId();
