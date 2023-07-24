@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Oct8pus\Gtag;
 
 use Exception;
+//FIX ME use function donatj\UserAgent\parse_user_agent;
 
 class Gtag
 {
@@ -187,6 +188,9 @@ class Gtag
 
             // new session requires a new random p
             $this->randomP();
+
+            // FIX ME user agent required on session start
+            //$this->addUserAgent();
         } else {
             $this->params['session_engaged'] = true;
         }
@@ -253,4 +257,33 @@ class Gtag
 
         return $params;
     }
+
+    /* NOT READY
+    public static function addUserAgent(array $params) : array
+    {
+        //$userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.58';
+
+        // or use sec header?
+        $params["user_agent_full_version_list"] = $userAgent;
+
+        $info = parse_user_agent($userAgent);
+
+        if (preg_match('/(\(.*?); (.*?); (.*?)\)/', $userAgent, $matches) !== 1) {
+            return $params;
+        }
+
+        $architecture = $matches[3];
+
+        $params["user_agent_architecture"] = $architecture;
+        $params["user_agent_bitness"] = $architecture === 'x64' ? 64 : 32;
+        $params["user_agent_model"] = '';
+        $params["user_agent_mobile"] = '';
+        $params["user_agent_platform"] = $info['platform'];
+        $params["user_agent_platform_version"] = '';
+        $params["user_agent_wow64"] = '';
+
+        return $params;
+    }
+    */
 }
