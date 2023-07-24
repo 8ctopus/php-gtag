@@ -168,12 +168,17 @@ class Gtag
         return $this;
     }
 
+    public function isSessionExpired() : bool
+    {
+        return (time() - $this->lastActivity) >= $this->sessionDuration;
+    }
+
     private function prepareParams(AbstractEvent $event, bool $safeMode) : array
     {
         $params = [];
 
         // default session expires after 30 minutes of inactivity
-        if ((time() - $this->lastActivity) >= $this->sessionDuration) {
+        if ($this->isSessionExpired()) {
             if ($safeMode) {
                 // create new session
                 echo "session expired, create new session...\n";
