@@ -10,6 +10,40 @@ use RuntimeException;
 class Helper
 {
     /**
+     * Read browser cookies
+     *
+     * @return [type]
+     */
+    public static function readCookies() : array
+    {
+        $cookies = [];
+
+        if (!$_COOKIE && !array_key_exists('_ga', $_COOKIE)) {
+            throw new Exception('Cookie _ga not found');
+        }
+
+        $cookies['_ga'] = $_COOKIE['_ga'];
+
+        foreach ($_COOKIE as $name => $value) {
+            if (str_starts_with($name, '_ga_')) {
+                $cookies[$name] = $value;
+            }
+        }
+
+        $count = count($cookies);
+
+        if ($count < 2) {
+            throw new Exception('session _ga_* cookie missing');
+        }
+
+        if ($count > 2) {
+            throw new Exception('more than one session _ga_* cookie');
+        }
+
+        return $cookies;
+    }
+
+    /**
      * Create a new GA4 client id
      *
      * @return string
