@@ -28,6 +28,8 @@ class Helper
 
         $cookies['_ga'] = $_COOKIE['_ga'];
 
+        $trackingId = str_replace('G-', '', $trackingId);
+
         $cookie = "_ga_{$trackingId}";
 
         if (!array_key_exists($cookie, $_COOKIE)) {
