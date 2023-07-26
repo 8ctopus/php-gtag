@@ -223,6 +223,6 @@ class Helper
 
     protected static function randomInt() : int
     {
-        return random_int(1000000000, 9999999999);
+        return random_int(100000000, 9999999999);
     }
 }

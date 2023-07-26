@@ -235,7 +235,7 @@ class Gtag
         $ga = $cookies['_ga'];
 
         // may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
-        if (preg_match('/^GA1\.1\.\d{10}\.\d{10}$/', $ga) !== 1) {
+        if (preg_match('/^GA1\.1\.\d{9,10}\.\d{10}$/', $ga) !== 1) {
             throw new Exception("_ga cookie invalid format - {$ga}");
         }
 
