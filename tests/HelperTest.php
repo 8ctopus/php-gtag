@@ -14,11 +14,26 @@ use PHPUnit\Framework\TestCase;
  */
 final class HelperTest extends TestCase
 {
+    public function testCreateCookies() : void
+    {
+        $trackingId = 'G-9XQMZ2E6TH';
+
+        Helper::createCookies($trackingId);
+
+        self::assertMatchesRegularExpression('/^GA1\.1\.\d{9,10}\.\d{10}$/', $_COOKIE['_ga']);
+
+        $trackingId = str_replace('G-', '', $trackingId);
+
+        $cookie = "_ga_{$trackingId}";
+
+        self::assertMatchesRegularExpression('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $_COOKIE[$cookie]);
+    }
+
     public function testCreateClientId() : void
     {
         $clientId = Helper::createClientId();
 
-        self::assertMatchesRegularExpression('/^GA1\.1\.\d{10}\.\d{10}$/', $clientId);
+        self::assertMatchesRegularExpression('/^GA1\.1\.\d{9,10}\.\d{10}$/', $clientId);
 
         $clientId = HelperMock::createClientId();
 

@@ -42,6 +42,24 @@ class Helper
     }
 
     /**
+     * Create ga cookies when they don't exist because of ad blocks
+     *
+     * @param string $trackingId
+     *
+     * @return void
+     */
+    public static function createCookies(string $trackingId) : void
+    {
+        $_COOKIE['_ga'] = static::createClientId();
+
+        $trackingId = str_replace('G-', '', $trackingId);
+
+        $cookie = "_ga_{$trackingId}";
+
+        $_COOKIE[$cookie] = static::createSessionId();
+    }
+
+    /**
      * Create a new GA4 client id
      *
      * @return string
