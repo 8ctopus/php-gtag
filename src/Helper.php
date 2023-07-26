@@ -22,7 +22,7 @@ class Helper
     {
         $cookies = [];
 
-        if (!$_COOKIE && !array_key_exists('_ga', $_COOKIE)) {
+        if (!$_COOKIE || !array_key_exists('_ga', $_COOKIE)) {
             throw new Exception('cookie _ga not found');
         }
 
