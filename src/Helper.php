@@ -46,17 +46,21 @@ class Helper
      *
      * @param string $trackingId
      *
-     * @return void
+     * @return array
      */
-    public static function createCookies(string $trackingId) : void
+    public static function createCookies(string $trackingId) : array
     {
-        $_COOKIE['_ga'] = static::createClientId();
+        $cookies = [];
+
+        $cookies['_ga'] = static::createClientId();
 
         $trackingId = str_replace('G-', '', $trackingId);
 
         $cookie = "_ga_{$trackingId}";
 
-        $_COOKIE[$cookie] = static::createSessionId();
+        $cookies[$cookie] = static::createSessionId();
+
+        return $cookies;
     }
 
     /**
