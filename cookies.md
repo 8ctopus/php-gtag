@@ -10,7 +10,7 @@ Store user
 
 ### architecture
 
-GA1.1.\d{9,10}.timestamp
+GA1.1.\d{8,10}.timestamp
 
 `GA1.1.1827526090.1689745728`
 

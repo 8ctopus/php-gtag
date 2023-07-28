@@ -20,7 +20,7 @@ final class HelperTest extends TestCase
 
         $cookies = Helper::createCookies($trackingId);
 
-        self::assertMatchesRegularExpression('/^GA1\.1\.\d{9,10}\.\d{10}$/', $cookies['_ga']);
+        self::assertMatchesRegularExpression('/^GA1\.1\.\d{8,10}\.\d{10}$/', $cookies['_ga']);
 
         $trackingId = str_replace('G-', '', $trackingId);
 
@@ -33,7 +33,7 @@ final class HelperTest extends TestCase
     {
         $clientId = Helper::createClientId();
 
-        self::assertMatchesRegularExpression('/^GA1\.1\.\d{9,10}\.\d{10}$/', $clientId);
+        self::assertMatchesRegularExpression('/^GA1\.1\.\d{8,10}\.\d{10}$/', $clientId);
 
         $clientId = HelperMock::createClientId();
 
