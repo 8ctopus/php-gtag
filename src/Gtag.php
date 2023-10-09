@@ -222,6 +222,15 @@ class Gtag
         return $this;
     }
 
+    /**
+     * Read cookies
+     *
+     * @param  array $cookies
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
     private function readCookies(array $cookies) : array
     {
         if (count($cookies) !== 2) {
@@ -249,12 +258,16 @@ class Gtag
 
         $trackingId = key($cookies);
 
+        if (!array_key_exists($trackingId, $cookies)) {
+            throw new Exception("cookie missing - {$trackingId}");
+        }
+
         $session = $cookies[$trackingId];
 
         $params['tracking_id'] = str_replace('_ga_', 'G-', $trackingId);
 
         if (preg_match('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $session, $matches) !== 1) {
-            throw new Exception('session cookie invalid format');
+            throw new Exception("session cookie invalid format - {$session}");
         }
 
         $params['session_id'] = (int) $matches[1];
