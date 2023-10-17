@@ -246,7 +246,7 @@ class Gtag
         // may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
         // sometimes cookie looks like this GA1.1.GA1.2.202830711.1689950339
         //                                  GA1.1.GA1.2.2497990.1693488014
-        if (preg_match('/^GA1\.1(\.GA1\.2)?.\d{7,10}\.\d{10}$/', $ga) !== 1) {
+        if (preg_match('/^GA1\.1(\.GA1\.2)?.\d{6,10}\.\d{10}$/', $ga) !== 1) {
             throw new Exception("_ga cookie invalid format - {$ga}");
         }
 
