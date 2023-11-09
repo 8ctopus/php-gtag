@@ -87,7 +87,7 @@ class Gtag
         }
 
         // we want %20 not +
-        $url = $this->url . '?' . http_build_query($encoded, '', null, PHP_QUERY_RFC3986);
+        $url = $this->url . '?' . http_build_query($encoded, '', '&', PHP_QUERY_RFC3986);
 
         if ($safeMode) {
             echo "{$url}\n\n";
