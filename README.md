@@ -14,19 +14,6 @@ Contributions welcome!
 
 ## install
 
-I've not published the library on `packagist.org` because it's experimental.
-
-- add the repository to `composer.json`
-
-```json
-"repositories": [{
-    "type": "git",
-    "url": "https://github.com/8ctopus/php-gtag"
-}],
-```
-
-- install
-
     composer require 8ctopus/php-gtag
 
 ## demo
