@@ -180,6 +180,7 @@ class Helper
             $converted .= "{$key}: {$value}\n";
         }
 
+
         return $converted;
     }
 
