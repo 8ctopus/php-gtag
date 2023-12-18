@@ -1,5 +1,13 @@
 # php gtag.js
 
+[![packagist](http://poser.pugx.org/8ctopus/php-gtag/v)](https://packagist.org/packages/8ctopus/php-gtag)
+[![downloads](http://poser.pugx.org/8ctopus/php-gtag/downloads)](https://packagist.org/packages/8ctopus/php-gtag)
+[![min php version](http://poser.pugx.org/8ctopus/php-gtag/require/php)](https://packagist.org/packages/8ctopus/php-gtag)
+[![license](http://poser.pugx.org/8ctopus/php-gtag/license)](https://packagist.org/packages/8ctopus/php-gtag)
+[![tests](https://github.com/8ctopus/php-gtag/actions/workflows/tests.yml/badge.svg)](https://github.com/8ctopus/php-gtag/actions/workflows/tests.yml)
+![code coverage badge](https://raw.githubusercontent.com/8ctopus/php-gtag/image-data/coverage.svg)
+![lines of code](https://raw.githubusercontent.com/8ctopus/php-gtag/image-data/lines.svg)
+
 Experimental Google Analytics 4 gtag.js php implementation for server side tracking.
 
 ## why?
