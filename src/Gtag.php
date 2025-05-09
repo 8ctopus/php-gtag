@@ -135,6 +135,7 @@ class Gtag
             \CURLOPT_FRESH_CONNECT => false,
             \CURLOPT_HTTPHEADER => [
                 'Content-Length: 0',
+                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             ],
 
             \CURLOPT_CONNECTTIMEOUT => 5,
@@ -246,7 +247,8 @@ class Gtag
         // may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
         // sometimes cookie looks like this GA1.1.GA1.2.202830711.1689950339
         //                                  GA1.1.GA1.2.2497990.1693488014
-        if (preg_match('/^GA1\.1(?:\.GA1\.[12])?\.(\d{6,10}\.\d{10})$/', $ga, $matches) !== 1) {
+        //                                  GA1.2.XXXX.YYYY
+        if (preg_match('/^GA1\.[12](?:\.GA1\.[12])?\.(\d{6,10}\.\d{10})$/', $ga, $matches) !== 1) {
             throw new Exception("_ga cookie invalid format - {$ga}");
         }
 
@@ -266,17 +268,52 @@ class Gtag
 
         $params['tracking_id'] = str_replace('_ga_', 'G-', $trackingId);
 
-        if (preg_match('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $session, $matches) !== 1) {
-            throw new Exception("session cookie invalid format - {$session}");
+        // try legacy GS1.1... format
+        if (preg_match('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $session, $matches) === 1) {
+            $params['session_id'] = (int) $matches[1];
+            $params['session_number'] = (int) $matches[2];
+            $params['session_engaged'] = $matches[3] === '1';
+
+            $this->lastActivity = (int) $matches[4];
+
+            return $params;
         }
 
-        $params['session_id'] = (int) $matches[1];
-        $params['session_number'] = (int) $matches[2];
-        $params['session_engaged'] = $matches[3] === '1' ? true : false;
+        // GS2.1... format (GA4)
+        if (str_starts_with($session, 'GS2.1')) {
+            $parts = explode('.', $session);
 
-        $this->lastActivity = (int) $matches[4];
+            if (count($parts) >= 3) {
+                $payload = $parts[2];
+                $segments = explode('$', $payload);
 
-        return $params;
+                $segment = $segments[0];
+
+                if (preg_match('/^s(\d{10})$/', $segment, $matches)) {
+                    $params['session_id'] = (int) $matches[1];
+
+                    // GS2.1 not pass number, use 1
+                    $params['session_number'] = 1;
+                    $params['session_engaged'] = isset($segments[2]) && $segments[2] === 'g1';
+
+                    $this->lastActivity = time();
+
+                    /*
+                    // extract timestamp from segment 't...'
+                    foreach ($segments as $segment) {
+                        if (str_starts_with($segment, 't') && ctype_digit(substr($segment, 1))) {
+                            $this->lastActivity = (int) substr($segment, 1);
+                            break;
+                        }
+                    }
+                    */
+
+                    return $params;
+                }
+            }
+            throw new Exception("session cookie invalid format (GS2.1) - {$session}");
+        }
+        throw new Exception("session cookie invalid or unsupported format - {$session}");
     }
 
     /* NOT READY
