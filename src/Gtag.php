@@ -116,17 +116,36 @@ class Gtag
         return $this;
     }
 
+    /**
+     * Add parameters
+     *
+     * @param  array $params
+     *
+     * @return self
+     */
     public function addParams(array $params) : self
     {
         $this->params = array_merge($this->params, $params);
         return $this;
     }
 
+    /**
+     * Check if session is expired
+     *
+     * @return bool
+     */
     public function isSessionExpired() : bool
     {
         return (time() - $this->lastActivity) >= $this->sessionDuration;
     }
 
+    /**
+     * Send curl request
+     *
+     * @param  string $url
+     *
+     * @return self
+     */
     protected function curl(string $url) : self
     {
         // send request
@@ -174,6 +193,11 @@ class Gtag
         return $this;
     }
 
+    /**
+     * Create random
+     *
+     * @return self
+     */
     protected function randomP() : self
     {
         $this->params['random_p'] = random_int(1, 999999999);
@@ -181,6 +205,14 @@ class Gtag
         return $this;
     }
 
+    /**
+     * Prepare parameters
+     *
+     * @param  AbstractEvent $event
+     * @param  bool          $safeMode
+     *
+     * @return array
+     */
     private function prepareParams(AbstractEvent $event, bool $safeMode) : array
     {
         $params = [];
@@ -218,6 +250,13 @@ class Gtag
         return array_merge($this->params, $params);
     }
 
+    /**
+     * Validate parameters
+     *
+     * @param  array $params
+     *
+     * @return self
+     */
     private function validateParams(array $params) : self
     {
         foreach ($this->required as $key) {
