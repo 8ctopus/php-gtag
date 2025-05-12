@@ -324,7 +324,7 @@ class Gtag
         }
 
         // GS2.1 format
-        if (preg_match('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $session, $matches) !== 1) {
+        if (preg_match('/^GS2\.1\.s(\d{10})\$o(\d{1,2})\$g(0|1)\$t(\d{10})\$j\d\$l\d\$h\d$/', $session, $matches) !== 1) {
             throw new Exception("session cookie invalid format - {$session}");
         }
 

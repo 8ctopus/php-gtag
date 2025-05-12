@@ -29,11 +29,11 @@ final class HelperTest extends TestCase
     {
         $sessionId = Helper::createSessionId();
 
-        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $sessionId);
+        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\$o(\d{1,2})\$g(0|1)\$t(\d{10})\$j\d\$l\d\$h\d$/', $sessionId);
 
         $sessionId = HelperMock::createSessionId();
 
-        self::assertSame('GS2.1.s' . time() . '.$o1.$g0.$t' . time() . '.$j0.$l0.$h0', $sessionId);
+        self::assertSame('GS2.1.s' . time() . '$o1$g0$t' . time() . '$j0$l0$h0', $sessionId);
     }
 
     public function testCreateCookies() : void
@@ -48,7 +48,7 @@ final class HelperTest extends TestCase
 
         $cookie = "_ga_{$trackingId}";
 
-        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $cookies[$cookie]);
+        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\$o(\d{1,2})\$g(0|1)\$t(\d{10})\$j\d\$l\d\$h\d$/', $cookies[$cookie]);
     }
 }
 

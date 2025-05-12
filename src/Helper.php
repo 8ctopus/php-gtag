@@ -86,7 +86,7 @@ class Helper
     {
         $time = time();
 
-        return "GS2.1.s{$time}.\$o1.\$g0.\$t{$time}.\$j0.\$l0.\$h0";
+        return "GS2.1.s{$time}\$o1\$g0\$t{$time}\$j0\$l0\$h0";
     }
 
     /**
@@ -98,7 +98,7 @@ class Helper
     {
         $time = time() - 31 * 60;
 
-        return "GS2.1.s{$time}.\$o1.\$g0.\$t{$time}.\$j0.\$l0.\$h0";
+        return "GS2.1.s{$time}\$o1\$g0\$t{$time}\$j0\$l0\$h0";
     }
 
     public static function analyze(string $source) : string
