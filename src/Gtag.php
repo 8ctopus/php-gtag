@@ -324,42 +324,15 @@ class Gtag
         }
 
         // GS2.1 format
-        if (!str_starts_with($session, 'GS2.1')) {
+        if (preg_match('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $session, $matches) !== 1) {
             throw new Exception("session cookie invalid format - {$session}");
         }
 
-        $parts = explode('.', $session);
-
-        if (count($parts) < 3) {
-            throw new Exception("session cookie invalid format (GS2.1) - {$session}");
-        }
-
-        $payload = $parts[2];
-        $segments = explode('$', $payload);
-
-        $segment = $segments[0];
-
-        if (preg_match('/^s(\d{10})$/', $segment, $matches) !== 1) {
-            throw new Exception("session cookie invalid format (GS2.1) - 2 - {$session}");
-        }
-
         $params['session_id'] = (int) $matches[1];
+        $params['session_number'] = (int) $matches[2];
+        $params['session_engaged'] = $matches[3] === '1';
 
-        // GS2.1 not pass number, use 1
-        $params['session_number'] = 1;
-        $params['session_engaged'] = isset($segments[2]) && $segments[2] === 'g1';
-
-        $this->lastActivity = time();
-
-        /*
-        // extract timestamp from segment 't...'
-        foreach ($segments as $segment) {
-            if (str_starts_with($segment, 't') && ctype_digit(substr($segment, 1))) {
-                $this->lastActivity = (int) substr($segment, 1);
-                break;
-            }
-        }
-        */
+        $this->lastActivity = (int) $matches[4];
 
         return $params;
     }
