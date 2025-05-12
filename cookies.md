@@ -6,12 +6,14 @@
 
 Used to store user information
 
-`_ga`
+### name
 
-### format
+    _ga
 
-GA1.1.id.timestamp
-GA1.1.\d{6,10}.timestamp{10}
+### value format
+
+GA1.1.<id>.<timestamp>
+GA1.1.\d{6,10}.\d{10}
 
 `GA1.1.1827526090.1689745728`
 
@@ -25,11 +27,15 @@ Used to store session state
 
 [reference](https://support.google.com/analytics/answer/9191807)
 
-    _ga_[A-Z0-1](10)
+### name
+
+_ga_<container-id>
+
+where `container-id` is `[A-Z0-9]{10}`
 
 `_ga_8XQMZ2E6TH`
 
-### format
+### value format
 
 _NOTE_: may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
 
