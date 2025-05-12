@@ -32,7 +32,7 @@ final class GtagTest extends TestCase
             'gtm' => '45je37j0',
             //'ngs_unknown' => 1,
             'external_event' => true,
-            'client_id' => str_replace('GA1.1.', '', $clientId),
+            'client_id' => str_replace('GA1.2.', '', $clientId),
             'tracking_id' => 'G-8XQMZ2E6TH',
             'session_id' => time(),
             'session_number' => 1,
@@ -69,7 +69,7 @@ final class GtagTest extends TestCase
 
         $gtag->send($event, false);
 
-        $clientId = str_replace('GA1.1.', '', $clientId);
+        $clientId = str_replace('GA1.2.', '', $clientId);
         $timestamp = time();
 
         $expected = "https://www.google-analytics.com/g/collect?v=2&tid=G-8XQMZ2E6TH&gtm=45je37j0&_p=9999999999&cid={$clientId}&ul=en-us&sr=1920x1080&_s=1&sid={$timestamp}&sct=1&seg=1&dl=http%3A%2F%2Ftest.com%2Fpurchase.php&dr=http%3A%2F%2Ftest.com%2F&dt=Purchase&en=page_view&_ee=1&ep.debug_mode=true";
@@ -101,7 +101,7 @@ final class GtagTest extends TestCase
 
         $gtag->send($event, false);
 
-        $clientId = str_replace('GA1.1.', '', $clientId);
+        $clientId = str_replace('GA1.2.', '', $clientId);
         $timestamp = time();
 
         // FIX ME on session start, the browser information should be provided
@@ -140,7 +140,7 @@ final class GtagTest extends TestCase
 
         $gtag->send($event, false);
 
-        $clientId = str_replace('GA1.1.', '', $clientId);
+        $clientId = str_replace('GA1.2.', '', $clientId);
         $timestamp = time();
 
         $expected = "https://www.google-analytics.com/g/collect?v=2&tid=G-8XQMZ2E6TH&gtm=45je37j0&_p=9999999999&cid={$clientId}&ul=en-us&sr=1920x1080&_s=1&cu=USD&sid={$timestamp}&sct=1&seg=1&dl=http%3A%2F%2Ftest.com%2Fpurchase.php&dr=http%3A%2F%2Ftest.com%2F&dt=Purchase&en=purchase&_c=1&_ee=1&pr1=nmpen~pr5.99~qt2&pr2=nmpaper%20and%20cisors~pr4.99~qt1&ep.debug_mode=true&ep.transaction_id=T-112&epn.value=16.97&_et=100";
