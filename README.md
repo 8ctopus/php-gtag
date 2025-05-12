@@ -30,4 +30,4 @@ Check `demo.php` on how to use it.
 
 ## cookies
 
-The cookies are described [here](https://github.com/8ctopus/php-gtag/blob/master/cookies.md)
+The cookies Google Analytics uses are described [here](https://github.com/8ctopus/php-gtag/blob/master/cookies.md)
