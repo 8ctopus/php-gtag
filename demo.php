@@ -10,6 +10,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // debug view events are not added to reports
 // https://support.google.com/analytics/answer/7201382
+// https://analytics.google.com/analytics/web/#/a62992619p355170503/admin/debugview/overview
 if (!file_exists('.config.php')) {
     // create config
     echo 'enter _ga cookie value: ';
@@ -38,7 +39,6 @@ $gtag->addParams([
     'screen_resolution' => '1920x1080',
 ]);
 
-/*
 $random = strtolower(bin2hex(random_bytes(2)));
 
 $page = 'gtag-index.php';
@@ -52,8 +52,6 @@ $event
     ->setDocumentTitle($title);
 
 $gtag->send($event, true);
-exit();
-*/
 
 $event = new PurchaseEvent();
 
