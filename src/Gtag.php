@@ -279,7 +279,7 @@ class Gtag
             return $params;
         }
 
-        // GS2.1 format (GA4)
+        // GS2.1 format
         if (!str_starts_with($session, 'GS2.1')) {
             throw new Exception("session cookie invalid or unsupported format - {$session}");
         }
