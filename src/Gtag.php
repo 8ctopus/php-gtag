@@ -32,6 +32,12 @@ class Gtag
         'external_event',
     ];
 
+    /**
+     * Constructor
+     *
+     * @param array $cookies
+     * @param bool  $debug
+     */
     public function __construct(array $cookies, bool $debug)
     {
         $this->url = 'https://www.google-analytics.com/g/collect';
@@ -247,26 +253,25 @@ class Gtag
         // may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
         // sometimes cookie looks like this GA1.1.GA1.2.202830711.1689950339
         //                                  GA1.1.GA1.2.2497990.1693488014
-        //                                  GA1.2.XXXX.YYYY
+        // new cookie format GA1.2.680519491.1740808099
         if (preg_match('/^GA1\.[12](?:\.GA1\.[12])?\.(\d{6,10}\.\d{10})$/', $ga, $matches) !== 1) {
             throw new Exception("_ga cookie invalid format - {$ga}");
         }
 
         $params = [];
-
         $params['client_id'] = $matches[1];
 
         unset($cookies['_ga']);
 
-        $trackingId = key($cookies);
+        $measurementId = key($cookies);
 
-        if (!array_key_exists($trackingId, $cookies)) {
-            throw new Exception("cookie missing - {$trackingId}");
+        if (!array_key_exists($measurementId, $cookies)) {
+            throw new Exception("cookie missing - {$measurementId}");
         }
 
-        $session = $cookies[$trackingId];
+        $session = $cookies[$measurementId];
 
-        $params['tracking_id'] = str_replace('_ga_', 'G-', $trackingId);
+        $params['tracking_id'] = str_replace('_ga_', 'G-', $measurementId);
 
         // legacy GS1.1 format
         if (preg_match('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $session, $matches) === 1) {
