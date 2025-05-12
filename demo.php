@@ -11,6 +11,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 // debug view events are not added to reports
 // https://support.google.com/analytics/answer/7201382
 if (!file_exists('.config.php')) {
+    // create config
     echo 'enter _ga cookie value: ';
     $ga = trim(fgets(STDIN));
 
@@ -28,7 +29,7 @@ if (!file_exists('.config.php')) {
     file_put_contents('.config.php', '<?php $config = ' . var_export($config, true) . ';');
 }
 
-require '.config.php';
+require __DIR__ . '/.config.php';
 
 $gtag = new Gtag($config, true);
 
