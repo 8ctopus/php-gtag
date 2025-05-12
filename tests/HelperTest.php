@@ -14,41 +14,41 @@ use PHPUnit\Framework\TestCase;
  */
 final class HelperTest extends TestCase
 {
-    public function testCreateCookies() : void
-    {
-        $trackingId = 'G-9XQMZ2E6TH';
-
-        $cookies = Helper::createCookies($trackingId);
-
-        self::assertMatchesRegularExpression('/^GA1\.1\.\d{8,10}\.\d{10}$/', $cookies['_ga']);
-
-        $trackingId = str_replace('G-', '', $trackingId);
-
-        $cookie = "_ga_{$trackingId}";
-
-        self::assertMatchesRegularExpression('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $cookies[$cookie]);
-    }
-
     public function testCreateClientId() : void
     {
         $clientId = Helper::createClientId();
 
-        self::assertMatchesRegularExpression('/^GA1\.1\.\d{8,10}\.\d{10}$/', $clientId);
+        self::assertMatchesRegularExpression('/^GA1\.2\.\d{6,10}\.\d{10}$/', $clientId);
 
         $clientId = HelperMock::createClientId();
 
-        self::assertSame('GA1.1.4444444444.' . time(), $clientId);
+        self::assertSame('GA1.2.4444444444.' . time(), $clientId);
     }
 
     public function testCreateSessionId() : void
     {
         $sessionId = Helper::createSessionId();
 
-        self::assertMatchesRegularExpression('/^GS1\.1\.(\d{10})\.(\d{1,2})\.(0|1)\.(\d{10})\.\d\.\d\.\d$/', $sessionId);
+        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $sessionId);
 
         $sessionId = HelperMock::createSessionId();
 
-        self::assertSame('GS1.1.' . time() . '.1.0.' . time() . '.0.0.0', $sessionId);
+        self::assertSame('GS2.1.s' . time() . '.$o1.$g0.$t' . time() . '.$j0.$l0.$h0', $sessionId);
+    }
+
+    public function testCreateCookies() : void
+    {
+        $trackingId = 'G-9XQMZ2E6TH';
+
+        $cookies = Helper::createCookies($trackingId);
+
+        self::assertMatchesRegularExpression('/^GA1\.2\.\d{6,10}\.\d{10}$/', $cookies['_ga']);
+
+        $trackingId = str_replace('G-', '', $trackingId);
+
+        $cookie = "_ga_{$trackingId}";
+
+        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\.\$o(\d{1,2})\.\$g(0|1)\.\$t(\d{10})\.\$j\d\.\$l\d\.\$h\d$/', $cookies[$cookie]);
     }
 }
 
