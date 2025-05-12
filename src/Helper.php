@@ -88,7 +88,7 @@ class Helper
     {
         $time = time();
 
-        return 'GS1.1.' . $time . '.1.0.' . $time . '.0.0.0';
+        return "GS1.1.{$time}.1.0.{$time}.0.0.0";
     }
 
     public static function createExpiredSessionId() : string
