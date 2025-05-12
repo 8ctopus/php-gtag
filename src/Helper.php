@@ -64,38 +64,41 @@ class Helper
     }
 
     /**
-     * Create a new GA4 client id
+     * Create user cookie value
      *
      * @return string
      *
-     * @note format is GA1.1.random(10).timestamp. See cookies.md for more info.
-     * example GA1.1.1827526090.1689745728
+     * @note See cookies.md for format. example GA1.2.1987826055.1739862817
      */
     public static function createClientId() : string
     {
-        return 'GA1.1.' . static::randomInt() . '.' . time();
+        return 'GA1.2.' . static::randomInt() . '.' . time();
     }
 
     /**
-     * Create a new GA4 session
+     * Create session cookie value
      *
      * @return string
      *
-     * @note format is GS1.1.session_id(timestamp).session_number.session_engaged.last_activity.?.?.? See cookies.md for more info.
-     * example GS1.1.1689765380.3.1.1689766550.0.0.0
+     * @note See cookies.md for format. example GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0
      */
     public static function createSessionId() : string
     {
         $time = time();
 
-        return "GS1.1.{$time}.1.0.{$time}.0.0.0";
+        return "GS2.1.s{$time}.\$o1.\$g0.\$t{$time}.\$j0.\$l0.\$h0";
     }
 
+    /**
+     * Create expired session cookie value
+     *
+     * @return string
+     */
     public static function createExpiredSessionId() : string
     {
         $time = time() - 31 * 60;
 
-        return 'GS1.1.' . $time . '.1.0.' . $time . '.0.0.0';
+        return "GS2.1.s{$time}.\$o1.\$g0.\$t{$time}.\$j0.\$l0.\$h0";
     }
 
     public static function analyze(string $source) : string
