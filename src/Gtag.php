@@ -325,7 +325,7 @@ class Gtag
 
         // GS2.1 format
         if (!str_starts_with($session, 'GS2.1')) {
-            throw new Exception("session cookie invalid or unsupported format - {$session}");
+            throw new Exception("session cookie invalid format - {$session}");
         }
 
         $parts = explode('.', $session);
