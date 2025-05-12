@@ -13,9 +13,10 @@ Used to store user information
 ### value
 
 GA1.1.<id>.<timestamp>
-GA1.1.\d{6,10}.\d{10}
-
 `GA1.1.1827526090.1689745728`
+
+- `id` is `\d{6,10}`
+- `timestamp` is `\d{10}`
 
 ### new version
 
@@ -38,16 +39,24 @@ Used to store session state
 ### name
 
 _ga_<measurement-id>
+`_ga_8XQMZ2E6TH`
 
 where `measurement-id` is found inside your google analytics settings and consists of `[A-Z0-9]{10}`
 
-`_ga_8XQMZ2E6TH`
 
 ### value
 
-_NOTE_: may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
+GS<version_number>.<session_id>.<session_number>.<session_engaged>.<last_activity>.<?>.<?>.<?>
+`GS1.1.1689765380.3.1.1689766550.0.0.0`
 
-GS1.1.<session_id(timestamp)>.<session_number>.<session_engaged>.<last_activity>.<?>.<?>.<?>
+- `version_number` is `1.1`
+- `session_id`  is the `timestamp` when the session started
+- `session_number`
+- `session_engaged` is mostly `1` but can also be `0`, no other values found
+- `last_activity` - timestamp
+- the last 3 values are always zero
+
+_NOTE_: may not always be GA1.1 https://stackoverflow.com/a/16107194/10126479
 
 #### cookie on first day
 
@@ -67,19 +76,20 @@ GS1.1.<session_id(timestamp)>.<session_number>.<session_engaged>.<last_activity>
 
 ### new version
 
-As of May 2025, there is a new cookie value that looks like this
+As of May 2025, there is a new cookie value that looks like this:
 
-    GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0
+`GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0`
 
 So the cookie name is unchanged, however the value is significantly different with the `$` as new separator as well as a new `2.1` version number.
 
 #### value format
 
-GS<version_number>.s<session_id>$o<session_number>$g<unknown_1>$t<last_activity>$j<j>$l<l>$h<h>
+GS<version_number>.s<session_id>$o<session_number>$g<session_engaged>$t<last_activity>$j<j>$l<l>$h<h>
+`GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0`
 
 - `version_number` is `2.1`
 - `session_id`  is the `timestamp` when the session started
 - `session_number` ? - most sample values had value 1, then 2, but also found one with 41
-- `unknown_1` is mostly one but can also be zero, no other values found
+- `session_engaged` is mostly one but can also be zero, no other values found
 - `last_activity` ? - it's a timestamp
 - `j`, `l` and `h` are always zero, like in the previous format
