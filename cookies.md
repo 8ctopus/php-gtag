@@ -37,9 +37,9 @@ Used to store session state
 
 ### name
 
-_ga_<container-id>
+_ga_<measurement-id>
 
-where `container-id` is `[A-Z0-9]{10}`
+where `measurement-id` is found inside your google analytics settings and consists of `[A-Z0-9]{10}`
 
 `_ga_8XQMZ2E6TH`
 
@@ -67,12 +67,19 @@ GS1.1.<session_id(timestamp)>.<session_number>.<session_engaged>.<last_activity>
 
 ### new version
 
-As of May 2025, there is a new cookie that looks like this
+As of May 2025, there is a new cookie value that looks like this
 
-`_ga_8P9R6GWMP3` => `GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0`
+    GS2.1.s1747027167$o11$g1$t1747027167$j0$l0$h0
 
-So the name appears unchanged, however the cookie is significantly different with the `$` as new separator as well as a new version number
+So the cookie name is unchanged, however the value is significantly different with the `$` as new separator as well as a new `2.1` version number.
 
 #### value format
 
-GS2.1.s<session_id,timestamp>$o<?>$g<?>$t<?,timestamp>$j<?>$l<?>$h<?>
+GS<version_number>.s<session_id>$o<session_number>$g<unknown_1>$t<last_activity>$j<j>$l<l>$h<h>
+
+- `version_number` is `2.1`
+- `session_id`  is the `timestamp` when the session started
+- `session_number` ? - most sample values had value 1, then 2, but also found one with 41
+- `unknown_1` is mostly one but can also be zero, no other values found
+- `last_activity` ? - it's a timestamp
+- `j`, `l` and `h` are always zero, like in the previous format
