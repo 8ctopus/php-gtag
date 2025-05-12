@@ -9,5 +9,5 @@
 # other
 /*.sublime-workspace
 /.php-cs-fixer.cache
-/.config.php
+/.env.php
 /temp.md
