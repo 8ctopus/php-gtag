@@ -10,6 +10,10 @@
 
 Experimental Google Analytics 4 gtag.js php implementation for server side tracking.
 
+## update
+
+Google updated its cookies at the start of May 2025. I've added support for the new cookie format and it appears to work. You will need to upgrade to 0.4.x.
+
 ## why?
 
 Google Analytics 4 measurement protocol is limited in what it can measure.
