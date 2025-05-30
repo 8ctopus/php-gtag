@@ -92,4 +92,6 @@ GS<version_number>.s<session_id>$o<session_number>$g<session_engaged>$t<last_act
 - `session_number` ? - most sample values had value 1, then 2, but also found one with 41
 - `session_engaged` is mostly one but can also be zero, no other values found
 - `last_activity` ? - it's a timestamp
-- `j`, `l` and `h` are always zero, like in the previous format
+- `j` ? - was zero until the last few days, now it's two digits
+- `l` and `h` are always zero, like in the previous format
+

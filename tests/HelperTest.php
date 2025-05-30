@@ -28,8 +28,9 @@ final class HelperTest extends TestCase
     public function testCreateSessionId() : void
     {
         $sessionId = Helper::createSessionId();
+        //$sessionId = 'GS2.1.s1748579264$o2$g1$t1748579577$j27$l0$h0';
 
-        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\$o(\d{1,2})\$g(0|1)\$t(\d{10})\$j\d\$l\d\$h\d$/', $sessionId);
+        self::assertMatchesRegularExpression('/^GS2\.1\.s(\d{10})\$o(\d{1,2})\$g(0|1)\$t(\d{10})\$j\d{1,2}\$l\d\$h\d$/', $sessionId);
 
         $sessionId = HelperMock::createSessionId();
 
