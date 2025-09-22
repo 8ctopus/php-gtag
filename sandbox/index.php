@@ -8,7 +8,7 @@ $measurementId = 'G-8XQMZ2E6TH';
 <html>
 <head>
 <title>index page</title>
-<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $measurementId ?>"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $measurementId; ?>"></script>
 <script>
 
 window.dataLayer = window.dataLayer || [];
@@ -18,7 +18,7 @@ function gtag() {
 }
 
 gtag('js', new Date());
-gtag('config', '<?= $measurementId ?>', {
+gtag('config', '<?= $measurementId; ?>', {
   // GA automatically tracks page views by default
   send_page_view: false,
   // debug view instructions

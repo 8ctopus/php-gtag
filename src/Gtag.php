@@ -119,7 +119,7 @@ class Gtag
     /**
      * Add parameters
      *
-     * @param  array $params
+     * @param array $params
      *
      * @return self
      */
@@ -142,7 +142,7 @@ class Gtag
     /**
      * Send curl request
      *
-     * @param  string $url
+     * @param string $url
      *
      * @return self
      */
@@ -208,8 +208,8 @@ class Gtag
     /**
      * Prepare parameters
      *
-     * @param  AbstractEvent $event
-     * @param  bool          $safeMode
+     * @param AbstractEvent $event
+     * @param bool          $safeMode
      *
      * @return array
      */
@@ -253,7 +253,7 @@ class Gtag
     /**
      * Validate parameters
      *
-     * @param  array $params
+     * @param array $params
      *
      * @return self
      */
@@ -271,7 +271,7 @@ class Gtag
     /**
      * Read cookies
      *
-     * @param  array $cookies
+     * @param array $cookies
      *
      * @return array
      *
