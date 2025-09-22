@@ -8,13 +8,13 @@ use Oct8pus\Gtag\Gtag;
 use Oct8pus\Gtag\Helper;
 use Oct8pus\Gtag\PageviewEvent;
 use Oct8pus\Gtag\PurchaseEvent;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\Gtag\Gtag
  */
+#[CoversClass(Gtag::class)]
 final class GtagTest extends TestCase
 {
     public function testConstructor() : void

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Oct8pus\Gtag\AbstractEvent;
 use Oct8pus\Gtag\PageviewEvent;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\Gtag\AbstractEvent
- * @covers \Oct8pus\Gtag\PageviewEvent
  */
+#[CoversClass(AbstractEvent::class)]
+#[CoversClass(PageviewEvent::class)]
 final class PageviewEventTest extends TestCase
 {
     public function test() : void

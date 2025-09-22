@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests;
 
 use Oct8pus\Gtag\Helper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\Gtag\Helper
  */
+#[CoversClass(Helper::class)]
 final class HelperTest extends TestCase
 {
     public function testCreateClientId() : void
