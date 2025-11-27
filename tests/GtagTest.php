@@ -171,3 +171,4 @@ class GtagMock extends Gtag
         return $this;
     }
 }
+
