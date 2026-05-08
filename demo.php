@@ -27,7 +27,7 @@ if (!file_exists('.env.php')) {
         "{$name}" => $value,
     ];
 
-    file_put_contents('.env.php', '<?php $config = ' . var_export($config, true) . ';');
+    file_put_contents(__DIR__ . '.env.php', '<?php $config = ' . var_export($config, true) . ';');
 }
 
 require __DIR__ . '/.env.php';
